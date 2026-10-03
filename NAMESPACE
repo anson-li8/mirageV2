@@ -2,3 +2,5 @@
 
 S3method(print,mirage_result)
 S3method(print,mirage_vs_result)
+importFrom(Rcpp,sourceCpp)
+useDynLib(mirageV2, .registration = TRUE)
