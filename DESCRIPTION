@@ -1,0 +1,21 @@
+Package: mirageV2
+Title: Mixture Model Based Rare Variant Analysis on Genes (v2)
+Version: 0.1.0
+Authors@R: c(
+    person("Anson", "Li", role = c("aut", "cre")),
+    person("Shengtong", "Han", role = "aut")
+  )
+Description: A refactored successor to the 'mirage' package.
+License: MIT + file LICENSE
+Imports: 
+    cli,
+    Rcpp,
+    rlang
+Suggests: 
+    testthat (>= 3.0.0)
+LinkingTo: 
+    Rcpp
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 8.1.0
