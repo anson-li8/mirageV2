@@ -56,7 +56,7 @@ A list containing EM results.
 }
 \description{
 Unified Expectation-Maximization engine for both gene-level and
-variant-level mixture models. Operates entirely in log-space to
+variant-level mixture models. Runs entirely in log-space to
 prevent numerical overflow/underflow.
 }
 \keyword{internal}
