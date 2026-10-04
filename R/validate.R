@@ -11,6 +11,11 @@ validate_mirage_data <- function(data, type = c("gene", "vs")) {
     cli::cli_abort("{.arg data} must be a data frame.")
   }
 
+  # Accept 'group.index' as alias for 'category' (original mirage convention)
+  if ("group.index" %in% names(data) && !("category" %in% names(data))) {
+    names(data)[names(data) == "group.index"] <- "category"
+  }
+
   # Handle legacy 4-column input for gene-level (Gene, No.case, No.contr, category)
   if (type == "gene" && ncol(data) == 4 && !("ID" %in% names(data))) {
     cli::cli_warn("Input has 4 columns. Assuming columns are {.val Gene}, {.val No.case}, {.val No.contr}, {.val category} and generating {.val ID}.")

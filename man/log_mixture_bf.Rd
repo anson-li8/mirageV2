@@ -9,13 +9,14 @@ log_mixture_bf(log_bf, eta)
 \arguments{
 \item{log_bf}{Numeric vector of log Bayes factors.}
 
-\item{eta}{Numeric scalar in (0, 1).}
+\item{eta}{Numeric scalar or vector in \eqn{}\eqn{[0, 1]}.}
 }
 \value{
 Numeric vector of log((1-eta) + eta * exp(log_bf)).
 }
 \description{
 Calculates log((1-eta) + eta * BF) given log(BF), stably.
-Equivalent to log_sum_exp(log(1-eta), log(eta) + log_bf).
+Both log_bf and eta can be vectors of the same length,
+or eta can be a scalar (recycled).
 }
 \keyword{internal}
