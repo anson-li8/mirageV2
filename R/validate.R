@@ -41,14 +41,22 @@ validate_mirage_data <- function(data, type = c("gene", "vs")) {
   # Subset to required columns in exact order
   data <- data[, req_cols, drop = FALSE]
 
+
+  if (any(is.na(data))) {
+    cli::cli_abort(paste0(
+      "Input {.arg data} contains missing values ({.val NA}). ",
+      "Please remove or impute them before running MIRAGE."
+    ))
+  }
+
   # Type checks and coercion
   data$ID <- as.character(data$ID)
   if (type == "gene") data$Gene <- as.character(data$Gene)
 
-  if (!is.numeric(data$No.case) || any(data$No.case < 0, na.rm = TRUE)) {
+  if (!is.numeric(data$No.case) || any(data$No.case < 0)) {
     cli::cli_abort("{.field No.case} must be non-negative numeric values.")
   }
-  if (!is.numeric(data$No.contr) || any(data$No.contr < 0, na.rm = TRUE)) {
+  if (!is.numeric(data$No.contr) || any(data$No.contr < 0)) {
     cli::cli_abort("{.field No.contr} must be non-negative numeric values.")
   }
 
@@ -65,11 +73,6 @@ validate_mirage_data <- function(data, type = c("gene", "vs")) {
     data$category <- as.integer(cat_map[as.character(data$category)])
   } else {
     cli::cli_abort("{.field category} must be numeric, character, or a factor.")
-  }
-
-  if (any(is.na(data))) {
-    cli::cli_abort("Input {.arg data} contains missing values ({.val NA}). "+
-                   "Please remove or impute them before running MIRAGE.")
   }
 
   attr(data, "original_categories") <- unique_cats
