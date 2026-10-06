@@ -2,7 +2,7 @@
 % Please edit documentation in R/em_engine.R
 \name{em_mirage}
 \alias{em_mirage}
-\title{MIRAGE EM Algorithm (Log-Space)}
+\title{MIRAGE EM Algorithm}
 \usage{
 em_mirage(
   type = c("gene", "vs"),
@@ -28,35 +28,32 @@ em_mirage(
 
 \item{category}{Integer vector of category indices (1:K) for each variant.}
 
-\item{gene_index}{Integer vector of gene indices (1:G) for each variant.
-Required when type = "gene". Ignored when type = "vs".}
+\item{gene_index}{Integer vector of gene indices (1:G) for each variant.}
 
 \item{n_genes}{Number of genes. Required when type = "gene".}
 
 \item{n_categories}{Number of variant categories (K).}
 
-\item{delta_init}{Initial value for delta (proportion of risk genes).}
+\item{delta_init}{Initial value for delta.}
 
 \item{eta_init}{Numeric vector of initial eta values (length K).}
 
-\item{estimate_delta}{Logical. Whether to estimate delta.}
+\item{estimate_delta}{Logical.}
 
-\item{estimate_eta}{Logical. Whether to estimate eta.}
+\item{estimate_eta}{Logical.}
 
-\item{fixed_eta}{Numeric vector of fixed eta values (used when estimate_eta = FALSE).}
+\item{fixed_eta}{Numeric vector of fixed eta values.}
 
 \item{max_iter}{Maximum number of EM iterations.}
 
 \item{tol}{Convergence tolerance.}
 
-\item{verbose}{Logical. Print progress.}
+\item{verbose}{Logical.}
 }
 \value{
 A list containing EM results.
 }
 \description{
-Unified Expectation-Maximization engine for both gene-level and
-variant-level mixture models. Runs entirely in log-space to
-prevent numerical overflow/underflow.
+MIRAGE EM Algorithm
 }
 \keyword{internal}

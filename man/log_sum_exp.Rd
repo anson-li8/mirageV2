@@ -15,6 +15,6 @@ log_sum_exp(a, b)
 log(exp(a) + exp(b))
 }
 \description{
-Calculates log(exp(a) + exp(b)) in a numerically stable way.
+Log-Sum-Exp for Two Values
 }
 \keyword{internal}

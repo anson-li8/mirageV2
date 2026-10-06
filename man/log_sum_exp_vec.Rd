@@ -13,6 +13,6 @@ log_sum_exp_vec(v)
 log(sum(exp(v)))
 }
 \description{
-Calculates log(sum(exp(v))) in a numerically stable way.
+Log-Sum-Exp for a Vector
 }
 \keyword{internal}

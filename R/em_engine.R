@@ -1,24 +1,19 @@
-#' MIRAGE EM Algorithm (Log-Space)
-#'
-#' Unified Expectation-Maximization engine for both gene-level and
-#' variant-level mixture models. Runs entirely in log-space to
-#' prevent numerical overflow/underflow.
+#' MIRAGE EM Algorithm
 #'
 #' @param type Either "gene" or "vs".
 #' @param log_var_bf Numeric vector of log Bayes factors for each variant.
 #' @param category Integer vector of category indices (1:K) for each variant.
 #' @param gene_index Integer vector of gene indices (1:G) for each variant.
-#'   Required when type = "gene". Ignored when type = "vs".
 #' @param n_genes Number of genes. Required when type = "gene".
 #' @param n_categories Number of variant categories (K).
-#' @param delta_init Initial value for delta (proportion of risk genes).
+#' @param delta_init Initial value for delta.
 #' @param eta_init Numeric vector of initial eta values (length K).
-#' @param estimate_delta Logical. Whether to estimate delta.
-#' @param estimate_eta Logical. Whether to estimate eta.
-#' @param fixed_eta Numeric vector of fixed eta values (used when estimate_eta = FALSE).
+#' @param estimate_delta Logical.
+#' @param estimate_eta Logical.
+#' @param fixed_eta Numeric vector of fixed eta values.
 #' @param max_iter Maximum number of EM iterations.
 #' @param tol Convergence tolerance.
-#' @param verbose Logical. Print progress.
+#' @param verbose Logical.
 #' @return A list containing EM results.
 #' @keywords internal
 em_mirage <- function(type = c("gene", "vs"),
@@ -41,27 +36,24 @@ em_mirage <- function(type = c("gene", "vs"),
 
   # Initialize parameters
   eta <- eta_init
-  if (!estimate_eta) {
-    eta <- fixed_eta
-  }
+  if (!estimate_eta) eta <- fixed_eta
   delta <- delta_init
 
-  # Storage for tracking convergence
+  # Precompute factor for rowsum
+  category_f <- factor(category, levels = seq_len(n_categories))
+
+  if (type == "gene") {
+    gene_index_f <- factor(gene_index, levels = seq_len(n_genes))
+  }
+
+  # Convergence tracking
   eta_history <- matrix(NA_real_, nrow = max_iter, ncol = n_categories)
   eta_history[1, ] <- eta
-
   if (type == "gene") {
     delta_history <- numeric(max_iter)
     delta_history[1] <- delta
-    gene_log_bf <- numeric(n_genes)
   }
 
-  # Gene-level: precompute gene membership
-  if (type == "gene") {
-    gene_split <- split(seq_len(n_variants), gene_index)
-  }
-
-  # EM Loop
   converged <- FALSE
   final_iter <- 1L
 
@@ -70,95 +62,61 @@ em_mirage <- function(type = c("gene", "vs"),
     delta_prev <- delta
 
     if (type == "gene") {
-      # GENE-LEVEL EM
+      # Gene-Level EM (vectorized for performance)
 
-      # Compute gene-level log BFs
-      # log_B_i = sum_j log((1-eta_kj) + eta_kj * BF_j)
-      gene_log_bf <- vapply(seq_len(n_genes), function(i) {
-        idx <- gene_split[[i]]
-        if (length(idx) == 0) return(0)
-        sum(log_mixture_bf(log_var_bf[idx], eta[category[idx]]))
-      }, numeric(1))
+      # Gene-level log BFs: sum of log((1-eta_k) + eta_k * BF_j) per gene
+      log_mix_bf <- log_mixture_bf(log_var_bf, eta_prev[category])
+      gene_log_bf <- as.numeric(rowsum(log_mix_bf, gene_index_f))
 
-      # E-step
-      # EUi[i] = P(U_i=1 | data) = delta*B_i / (delta*B_i + 1-delta)
-      # In log-space: log_EUi = log(delta) + log_B_i - log_sum_exp(log(delta)+log_B_i, log(1-delta))
-      log_EUi <- vapply(gene_log_bf, function(lb) {
-        log_numer <- log(delta_prev) + lb
-        log_denom <- log_sum_exp(log_numer, log(1 - delta_prev))
-        log_numer - log_denom
-      }, numeric(1))
-      EUi <- exp(log_EUi)
+      # E-step: EUi = delta*B_i / (delta*B_i + 1-delta)
+      log_numer <- log(delta_prev) + gene_log_bf
+      log_denom <- log_sum_exp_vec2(log_numer, rep(log1p(-delta_prev), n_genes))
+      EUi <- exp(log_numer - log_denom)
 
-      # UiZij: posterior prob variant j is risk = EUi[i] * P_j
-      # P_j = eta_k * BF_j / (eta_k * BF_j + (1 - eta_k))
-      # log_P_j = log(eta_k) + log_BF_j - log_sum_exp(log(eta_k)+log_BF_j, log(1-eta_k))
-      log_P_j <- log(eta_prev[category]) + log_var_bf -
-        vapply(seq_len(n_variants), function(j) {
-          log_sum_exp(log(eta_prev[category[j]]) + log_var_bf[j],
-                      log(1 - eta_prev[category[j]]))
-        }, numeric(1))
+      # Variant-level posterior: P_j = eta_k*BF_j / (eta_k*BF_j + 1-eta_k)
+      log_eta_cat <- log(eta_prev[category])
+      log_one_minus_eta_cat <- log1p(-eta_prev[category])
+      a <- log_eta_cat + log_var_bf
+      b <- log_one_minus_eta_cat
+      log_P_j <- a - log_sum_exp_vec2(a, b)
       P_j <- exp(log_P_j)
 
-      # UiZij = EUi[gene_index] * P_j
+      # UiZij = EUi[gene] * P_j
       UiZij <- EUi[gene_index] * P_j
 
-      # M-step
+      # M-step: delta
       if (estimate_delta) {
         delta <- mean(EUi)
         delta <- max(delta, .Machine$double.xmin)
         delta <- min(delta, 1 - .Machine$double.eps)
       }
 
+      # M-step: eta (vectorized with table)
       if (estimate_eta) {
-        for (g in seq_len(n_categories)) {
-          cat_variants <- which(category == g)
-          if (length(cat_variants) == 0) next
-
-          # total.Zij: sum of posterior probs of risk variants in cat g
-          numerator <- sum(UiZij[cat_variants])
-
-          # total.Ui: expected number of risk variant slots in cat g
-          # = sum over genes of (count of cat g variants in gene) * EUi[gene]
-          denominator <- 0
-          for (i in seq_len(n_genes)) {
-            idx <- gene_split[[i]]
-            n_cat_in_gene <- sum(category[idx] == g)
-            denominator <- denominator + n_cat_in_gene * EUi[i]
-          }
-
-          if (denominator > 0) {
-            eta[g] <- numerator / denominator
-          } else {
-            eta[g] <- 0
-          }
-        }
+        numerator <- as.numeric(rowsum(UiZij, category_f))
+        # Denominator: sum over genes of (count_cat_in_gene * EUi[gene])
+        counts <- table(gene_index_f, category_f)
+        denominator <- as.numeric(colSums(counts * EUi))
+        eta <- ifelse(denominator > 0, numerator / denominator, 0)
         eta <- pmax(eta, .Machine$double.xmin)
         eta <- pmin(eta, 1 - .Machine$double.eps)
       }
 
     } else {
-      # VARIANT-LEVEL EM
+      # Variant-level EM (vectorized for performance)
 
-      # E-step
-      # EZj[j] = eta_k * BF_j / (eta_k * BF_j + (1 - eta_k))
-      log_EZj <- log(eta_prev[category]) + log_var_bf -
-        vapply(seq_len(n_variants), function(j) {
-          log_sum_exp(log(eta_prev[category[j]]) + log_var_bf[j],
-                      log(1 - eta_prev[category[j]]))
-        }, numeric(1))
-      EZj <- exp(log_EZj)
+      # E-step: EZj = eta_k*BF_j / (eta_k*BF_j + 1-eta_k)
+      log_eta_cat <- log(eta_prev[category])
+      log_one_minus_eta_cat <- log1p(-eta_prev[category])
+      a <- log_eta_cat + log_var_bf
+      b <- log_one_minus_eta_cat
+      EZj <- exp(a - log_sum_exp_vec2(a, b))
 
-      # M-step
+      # M-step: eta
       if (estimate_eta) {
-        for (g in seq_len(n_categories)) {
-          cat_variants <- which(category == g)
-          if (length(cat_variants) == 0) {
-            eta[g] <- 0
-          } else {
-            eta[g] <- sum(EZj[cat_variants]) / length(cat_variants)
-          }
-        }
+        numerator <- as.numeric(rowsum(EZj, category_f))
+        denominator <- as.numeric(table(category_f))
+        eta <- ifelse(denominator > 0, numerator / denominator, 0)
         eta <- pmax(eta, .Machine$double.xmin)
         eta <- pmin(eta, 1 - .Machine$double.eps)
       }
@@ -166,16 +124,11 @@ em_mirage <- function(type = c("gene", "vs"),
 
     # Store history
     eta_history[iter, ] <- eta
-    if (type == "gene") {
-      delta_history[iter] <- delta
-    }
+    if (type == "gene") delta_history[iter] <- delta
 
-    # Check convergence
+    # Convergence check
     diff <- sum(abs(eta - eta_prev))
-    if (type == "gene" && estimate_delta) {
-      diff <- diff + abs(delta - delta_prev)
-    }
-
+    if (type == "gene" && estimate_delta) diff <- diff + abs(delta - delta_prev)
     final_iter <- iter
     if (diff < tol) {
       converged <- TRUE
@@ -185,50 +138,39 @@ em_mirage <- function(type = c("gene", "vs"),
 
   # Trim history
   eta_history <- eta_history[seq_len(final_iter), , drop = FALSE]
+  if (type == "gene") delta_history <- delta_history[seq_len(final_iter)]
+
+  # Final posteriors at convergence
   if (type == "gene") {
-    delta_history <- delta_history[seq_len(final_iter)]
-  }
+    log_mix_bf_final <- log_mixture_bf(log_var_bf, eta[category])
+    gene_log_bf_final <- as.numeric(rowsum(log_mix_bf_final, gene_index_f))
 
-  # Final E-step to get posteriors at convergence
-  if (type == "gene") {
-    gene_log_bf_final <- vapply(seq_len(n_genes), function(i) {
-      idx <- gene_split[[i]]
-      if (length(idx) == 0) return(0)
-      sum(log_mixture_bf(log_var_bf[idx], eta[category[idx]]))
-    }, numeric(1))
+    log_numer_final <- log(delta) + gene_log_bf_final
+    log_denom_final <- log_sum_exp_vec2(log_numer_final, rep(log1p(-delta), n_genes))
+    EUi_final <- exp(log_numer_final - log_denom_final)
 
-    log_EUi_final <- vapply(gene_log_bf_final, function(lb) {
-      log_numer <- log(delta) + lb
-      log_denom <- log_sum_exp(log_numer, log(1 - delta))
-      log_numer - log_denom
-    }, numeric(1))
-
-    # Variant-level posteriors
-    log_P_j_final <- log(eta[category]) + log_var_bf -
-      vapply(seq_len(n_variants), function(j) {
-        log_sum_exp(log(eta[category[j]]) + log_var_bf[j],
-                    log(1 - eta[category[j]]))
-      }, numeric(1))
-    post_prob <- exp(log_EUi_final[gene_index] + log_P_j_final)
+    log_eta_cat_f <- log(eta[category])
+    a_f <- log_eta_cat_f + log_var_bf
+    b_f <- log1p(-eta[category])
+    log_P_j_final <- a_f - log_sum_exp_vec2(a_f, b_f)
+    post_prob <- EUi_final[gene_index] * exp(log_P_j_final)
 
     result <- list(
       delta.est = delta,
       eta.est = eta,
       gene.log.bf = gene_log_bf_final,
       post.prob = post_prob,
-      EUi = exp(log_EUi_final),
+      EUi = EUi_final,
       eta.history = eta_history,
       delta.history = delta_history,
       converged = converged,
       n.iter = final_iter
     )
   } else {
-    log_EZj_final <- log(eta[category]) + log_var_bf -
-      vapply(seq_len(n_variants), function(j) {
-        log_sum_exp(log(eta[category[j]]) + log_var_bf[j],
-                    log(1 - eta[category[j]]))
-      }, numeric(1))
-    post_prob <- exp(log_EZj_final)
+    log_eta_cat_f <- log(eta[category])
+    a_f <- log_eta_cat_f + log_var_bf
+    b_f <- log1p(-eta[category])
+    post_prob <- exp(a_f - log_sum_exp_vec2(a_f, b_f))
 
     result <- list(
       eta.est = eta,
