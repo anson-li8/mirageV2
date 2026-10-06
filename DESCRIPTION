@@ -7,7 +7,8 @@ Authors@R: c(
   )
 Description: A refactored successor to the 'mirage' package.
 License: MIT + file LICENSE
-Imports: 
+Imports:
+    broom,
     cli,
     Rcpp,
     rlang
