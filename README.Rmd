@@ -18,37 +18,99 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of mirageV2 is to ...
+`mirageV2` is a refactor and performance improvement of the
+[`mirage`](https://github.com/xinhe-lab/mirage) package for rare variant
+(RV) association testing using a Bayesian mixture model. It models variants
+in a gene as a mixture of risk and non-risk variants, with prior
+probabilities informed by functional annotations such as conservation
+scores and protein impact predictions.
+
+## Key improvements over `mirage`
+
+| Area | `mirage` | `mirageV2` |
+|------|----------|------------|
+| **Numerical stability** | Probability-space EM with `ifelse(bb==Inf, 3e300, bb)` overflow patches | Log-space EM with `log_sum_exp` throughout |
+| **BF computation** | R `integrate()` per variant in a loop | Vectorized C++ composite Simpson's rule via Rcpp |
+| **EM engine** | Duplicated `vapply`/nested loops in `mirage()` and `mirage_vs()` | Single unified engine, vectorized with `rowsum`/`table` |
+| **Input validation** | Implicit column guessing | Strict S3 validation with `cli` error messages |
+| **Output** | Loose unnamed lists | S3 classes (`mirage_result`, `mirage_vs_result`) with `print`, `summary`, `tidy` methods |
+| **Testing** | None | 56 `testthat` tests covering edge cases |
+| **Performance** | ~160s on `mirage_toy` (282 genes) | **~10s** (15x speedup) |
 
 ## Installation
 
-You can install the development version of mirageV2 like so:
+```{r, eval = FALSE}
+# Install devtools if needed
+install.packages("devtools")
 
-``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# Install mirageV2
+devtools::install_github("anson-li8/mirageV2")
 ```
 
-## Example
+## Quick start
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
+```{r example, eval = FALSE}
 library(mirageV2)
-## basic example code
+
+# Load bundled toy data
+toy <- read.csv(system.file("extdata", "mirage_toy.csv", package = "mirageV2"),
+                stringsAsFactors = FALSE)
+
+# Gene-level analysis
+res <- mirage(toy, n1 = 4315, n2 = 4315)
+print(res)
+summary(res)
+
+# Tidy output (broom-compatible)
+tidy(res)
+
+# Variant-set analysis
+vs_toy <- read.csv(system.file("extdata", "mirage_vs_toy.csv", package = "mirageV2"),
+                   stringsAsFactors = FALSE)
+res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
+print(res_vs)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Input format
 
-```{r cars}
-summary(cars)
+### Gene-level (`mirage`)
+
+A data frame with 5 columns (or 4 without `ID`):
+
+| Column | Description |
+|--------|-------------|
+| `ID` | Variant identifier |
+| `Gene` | Gene name |
+| `No.case` | Allele count in cases |
+| `No.contr` | Allele count in controls |
+| `category` | Variant annotation group (or `group.index` for backward compatibility) |
+
+### Variant-set level (`mirage_vs`)
+
+Same as above without the `Gene` column.
+
+## Method
+
+`mirageV2` implements the same Bayesian mixture model as the original
+`mirage`. For a gene $i$ with variants $j = 1, \ldots, m_i$:
+
+- Each variant is modeled as risk ($Z_{ij} = 1$) or non-risk ($Z_{ij} = 0$)
+  with $P(Z_{ij} = 1 \mid U_i = 1) = \eta_k$, where $k$ is the variant's
+  annotation category.
+- Each gene is a risk gene ($U_i = 1$) with probability $\delta$.
+- Variant-level Bayes factors are computed by integrating over a
+  Gamma-distributed relative risk parameter.
+- Parameters $(\delta, \eta_1, \ldots, \eta_K)$ are estimated via EM in
+  log-space.
+- Gene-level posterior probabilities and likelihood ratio test p-values are
+  reported.
+
+See the [original `mirage`
+documentation](https://xinhe-lab.github.io/mirage/) for full method
+details.
+
+## Session information
+
+```{r}
+sessionInfo()
 ```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

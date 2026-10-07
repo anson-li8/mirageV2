@@ -8,8 +8,8 @@ Authors@R: c(
 Description: A refactored successor to the 'mirage' package.
 License: MIT + file LICENSE
 Imports:
-    broom,
     cli,
+    generics,
     Rcpp,
     rlang
 Suggests: 
