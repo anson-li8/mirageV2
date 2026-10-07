@@ -26,9 +26,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// em_mirage_cpp
+List em_mirage_cpp(IntegerVector category, IntegerVector gene_index, NumericVector log_var_bf, int n_genes, int n_categories, double delta_init, NumericVector eta_init, bool estimate_delta, bool estimate_eta, NumericVector fixed_eta, int max_iter, double tol);
+RcppExport SEXP _mirageV2_em_mirage_cpp(SEXP categorySEXP, SEXP gene_indexSEXP, SEXP log_var_bfSEXP, SEXP n_genesSEXP, SEXP n_categoriesSEXP, SEXP delta_initSEXP, SEXP eta_initSEXP, SEXP estimate_deltaSEXP, SEXP estimate_etaSEXP, SEXP fixed_etaSEXP, SEXP max_iterSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type category(categorySEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type gene_index(gene_indexSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type log_var_bf(log_var_bfSEXP);
+    Rcpp::traits::input_parameter< int >::type n_genes(n_genesSEXP);
+    Rcpp::traits::input_parameter< int >::type n_categories(n_categoriesSEXP);
+    Rcpp::traits::input_parameter< double >::type delta_init(delta_initSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type eta_init(eta_initSEXP);
+    Rcpp::traits::input_parameter< bool >::type estimate_delta(estimate_deltaSEXP);
+    Rcpp::traits::input_parameter< bool >::type estimate_eta(estimate_etaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type fixed_eta(fixed_etaSEXP);
+    Rcpp::traits::input_parameter< int >::type max_iter(max_iterSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(em_mirage_cpp(category, gene_index, log_var_bf, n_genes, n_categories, delta_init, eta_init, estimate_delta, estimate_eta, fixed_eta, max_iter, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_mirageV2_calc_log_bf_var_cpp", (DL_FUNC) &_mirageV2_calc_log_bf_var_cpp, 6},
+    {"_mirageV2_em_mirage_cpp", (DL_FUNC) &_mirageV2_em_mirage_cpp, 12},
     {NULL, NULL, 0}
 };
 

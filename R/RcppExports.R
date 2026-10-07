@@ -5,3 +5,7 @@ calc_log_bf_var_cpp <- function(var_case, var_contr, gamma_vec, sigma_vec, N1, N
     .Call(`_mirageV2_calc_log_bf_var_cpp`, var_case, var_contr, gamma_vec, sigma_vec, N1, N0)
 }
 
+em_mirage_cpp <- function(category, gene_index, log_var_bf, n_genes, n_categories, delta_init, eta_init, estimate_delta, estimate_eta, fixed_eta, max_iter, tol) {
+    .Call(`_mirageV2_em_mirage_cpp`, category, gene_index, log_var_bf, n_genes, n_categories, delta_init, eta_init, estimate_delta, estimate_eta, fixed_eta, max_iter, tol)
+}
+
