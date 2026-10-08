@@ -5,6 +5,10 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/anson-li8/mirageV2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/anson-li8/mirageV2/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/anson-li8/mirageV2/graph/badge.svg)](https://app.codecov.io/gh/anson-li8/mirageV2)
+[![test-coverage](https://github.com/anson-li8/mirageV2/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/anson-li8/mirageV2/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
 `mirageV2` is a refactor and performance improvement of the

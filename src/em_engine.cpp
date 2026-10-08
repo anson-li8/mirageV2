@@ -119,16 +119,19 @@ List em_mirage_cpp(IntegerVector category,      // 0-indexed category per varian
     if (estimate_eta) {
       for (int g = 0; g < n_categories; ++g) {
         double numerator = 0.0;
-        double denominator = 0.0;
         for (int j = 0; j < n_variants; ++j) {
           if (category[j] == g) numerator += UiZij[j];
         }
-        for (int i = 0; i < n_genes; ++i) {
-          denominator += counts[i * n_categories + g] * EUi[i];
+        if (numerator <= 0.0) {
+          eta[g] = 0.0;
+        } else {
+          double denominator = 0.0;
+          for (int i = 0; i < n_genes; ++i) {
+            denominator += counts[i * n_categories + g] * EUi[i];
+          }
+          eta[g] = numerator / denominator;
+          eta[g] = std::min(eta[g], 1.0 - 1e-15);
         }
-        eta[g] = (denominator > 0) ? numerator / denominator : 0.0;
-        eta[g] = std::max(eta[g], 1e-300);
-        eta[g] = std::min(eta[g], 1.0 - 1e-15);
       }
     }
 
@@ -139,7 +142,6 @@ List em_mirage_cpp(IntegerVector category,      // 0-indexed category per varian
     // Convergence check
     double diff = 0.0;
     for (int g = 0; g < n_categories; ++g) diff += std::abs(eta[g] - eta_prev[g]);
-    if (estimate_delta) diff += std::abs(delta - delta_prev);
 
     final_iter = iter + 1;
     if (diff < tol) {
