@@ -12,4 +12,9 @@ export(mirage)
 export(mirage_vs)
 importFrom(Rcpp,sourceCpp)
 importFrom(generics,tidy)
+importFrom(stats,
+  pchisq,
+  setNames
+)
+importFrom(utils,head)
 useDynLib(mirageV2, .registration = TRUE)

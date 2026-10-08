@@ -2,6 +2,10 @@
 title: "Performance Benchmark: mirageV2 vs mirage"
 author: "Anson Li"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Performance Benchmark: mirageV2 vs mirage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}

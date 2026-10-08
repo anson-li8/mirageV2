@@ -10,10 +10,9 @@ License: MIT + file LICENSE
 Imports:
     cli,
     generics,
-    Rcpp,
-    rlang
-Suggests: 
-    bench,
+    Rcpp
+Suggests:
+    mirage,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

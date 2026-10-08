@@ -6,3 +6,6 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^\.Rhistory$
+^\.RData$
+^\.Ruserdata$

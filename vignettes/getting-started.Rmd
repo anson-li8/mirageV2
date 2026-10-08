@@ -2,6 +2,10 @@
 title: "Getting Started with mirageV2"
 author: "Anson Li"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with mirageV2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
