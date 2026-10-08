@@ -1,0 +1,102 @@
+---
+title: "Performance Benchmark: mirageV2 vs mirage"
+author: "Anson Li"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Overview
+
+`mirageV2` is a performance-oriented rewrite of the original
+[`mirage`](https://github.com/xinhe-lab/mirage) package. This vignette
+benchmarks both packages on the same dataset and compares results for
+numerical equivalence.
+
+### Architecture differences
+
+| Component | `mirage` | `mirageV2` |
+|-----------|----------|------------|
+| Bayes factor integration | R `integrate()` per variant in a loop | C++ composite Simpson's (vectorized) |
+| EM algorithm | R `vapply`/nested loops, probability space | C++ EM, log-space with `log_sum_exp` |
+| Numerical overflow handling | `ifelse(bb==Inf, 3e300, bb)` patch | Log-space arithmetic (no overflow possible) |
+
+## Setup
+
+```{r load}
+library(mirageV2)
+
+toy <- read.csv(
+  system.file("extdata", "mirage_toy.csv", package = "mirageV2"),
+  stringsAsFactors = FALSE
+)
+cat("Dataset:", nrow(toy), "variants across",
+    length(unique(toy$Gene)), "genes\n")
+```
+
+Check if the original `mirage` package is available:
+
+```{r check-original}
+has_original <- requireNamespace("mirage", quietly = TRUE)
+cat("Original mirage installed:", has_original, "\n")
+```
+
+## Runtime comparison
+
+```{r benchmark, eval=has_original}
+# Time mirageV2
+t_v2 <- system.time(
+  res_v2 <- mirage(toy, n1 = 4315, n2 = 4315, verbose = FALSE)
+)
+
+# Time original mirage
+t_v1 <- system.time(
+  res_v1 <- mirage::mirage(toy, n1 = 4315, n2 = 4315, verbose = FALSE)
+)
+
+cat("\n--- Timing Results ---\n")
+cat(sprintf("mirage  (original): %.2fs\n", t_v1["elapsed"]))
+cat(sprintf("mirageV2:           %.2fs\n", t_v2["elapsed"]))
+cat(sprintf("Speedup:            %.1fx\n", t_v1["elapsed"] / t_v2["elapsed"]))
+```
+
+```{r benchmark-v2-only, eval=!has_original}
+# Original mirage not installed; benchmark mirageV2 alone
+t_v2 <- system.time(
+  res_v2 <- mirage(toy, n1 = 4315, n2 = 4315, verbose = FALSE)
+)
+cat(sprintf("mirageV2: %.2fs\n", t_v2["elapsed"]))
+cat("Install the original package for a direct comparison:\n")
+cat("  devtools::install_github('xinhe-lab/mirage')\n")
+```
+
+## Result equivalence
+
+```{r equivalence, eval=has_original}
+# Compare posterior probabilities
+v2_pp <- res_v2$BF.PP.gene$post.prob
+v1_pp <- res_v1$BF.PP.gene[, 3]  # post.prob column
+
+cat("Max absolute difference in posterior probabilities:",
+    max(abs(v2_pp - v1_pp)), "\n")
+
+# Compare delta estimates
+cat(sprintf("mirage  delta: %.6f\n", res_v1$delta.est$delta.est))
+cat(sprintf("mirageV2 delta: %.6f\n", res_v2$delta.est$delta.est))
+
+# Compare eta estimates
+cat("\nEta estimates (mirage vs mirageV2):\n")
+print(data.frame(
+  category = res_v2$eta.est |> rownames(),
+  mirage = res_v1$eta.est$eta.est,
+  mirageV2 = res_v2$eta.est$eta.est
+))
+```
+
+## Session info
+
+```{r}
+sessionInfo()
+```
