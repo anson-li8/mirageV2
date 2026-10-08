@@ -1,0 +1,119 @@
+---
+title: "Getting Started with mirageV2"
+author: "Anson Li"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Installation
+
+```{r, eval=FALSE}
+devtools::install_github("anson-li8/mirageV2")
+```
+
+## Input format
+
+`mirageV2` requires a data frame with variant-level summary statistics.
+
+### Gene-level (`mirage`)
+
+| Column | Description |
+|--------|-------------|
+| `ID` | Variant identifier |
+| `Gene` | Gene name |
+| `No.case` | Allele count in cases |
+| `No.contr` | Allele count in controls |
+| `category` | Variant annotation group (or `group.index`) |
+
+### Variant-set level (`mirage_vs`)
+
+Same as above without the `Gene` column.
+
+## Gene-level analysis
+
+```{r gene-example}
+library(mirageV2)
+library(generics)
+
+toy <- read.csv(
+  system.file("extdata", "mirage_toy.csv", package = "mirageV2"),
+  stringsAsFactors = FALSE
+)
+head(toy)
+```
+
+Run the analysis:
+
+```{r gene-run}
+res <- mirage(toy, n1 = 4315, n2 = 4315)
+```
+
+The result is a `mirage_result` object:
+
+```{r gene-print}
+print(res)
+```
+
+Key outputs:
+
+- `res$delta.est`: Estimated proportion of risk genes with p-value.
+- `res$eta.est`: Estimated proportion of risk variants per category with p-values.
+- `res$BF.PP.gene`: Bayes factors and posterior probabilities per gene.
+- `res$BF.all`: Variant-level Bayes factors grouped by gene.
+
+```{r gene-summary}
+summary(res)
+```
+
+Tidy output:
+
+```{r gene-tidy}
+head(tidy(res))
+```
+
+## Variant-set analysis
+
+```{r vs-example}
+vs_toy <- read.csv(
+  system.file("extdata", "mirage_vs_toy.csv", package = "mirageV2"),
+  stringsAsFactors = FALSE
+)
+head(vs_toy)
+```
+
+```{r vs-run}
+res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
+print(res_vs)
+```
+
+## Fixed eta
+
+When external annotation data provides reliable risk proportions, fix `eta`
+instead of estimating it:
+
+```{r fixed-eta}
+res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
+                    estimate.eta = FALSE,
+                    fixed_eta = c(0.60, 0.31, 0.16, 0.40, 0.20))
+head(res_fixed$BF.PP.gene)
+```
+
+## Key parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `gamma` | 3 | Gamma prior shape for effect size |
+| `sigma` | 2 | Gamma prior scale for effect size |
+| `eta.init` | 0.1 | Initial risk variant proportion |
+| `delta.init` | 0.1 | Initial risk gene proportion |
+| `max.iter` | 10000 | Maximum EM iterations |
+| `tol` | 1e-5 | Convergence tolerance |
+
+## Session info
+
+```{r}
+sessionInfo()
+```
