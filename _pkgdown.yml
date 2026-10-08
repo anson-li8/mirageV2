@@ -1,0 +1,26 @@
+url: ~
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, benchmark, reference]
+    right: [github]
+  components:
+    intro:
+      text: "Getting Started"
+      href: articles/getting-started.html
+    benchmark:
+      text: "Benchmark"
+      href: articles/benchmark.html
+    github:
+      icon: fab fa-github
+      href: https://github.com/anson-li8/mirageV2
+
+articles:
+  - title: "Getting Started"
+    contents:
+      - getting-started
+  - title: "Benchmark"
+    contents:
+      - benchmark
