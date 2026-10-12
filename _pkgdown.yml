@@ -16,6 +16,7 @@ navbar:
     github:
       icon: fab fa-github
       href: https://github.com/anson-li8/mirageV2
+      aria-label: GitHub
 
 articles:
   - title: "Getting Started"
