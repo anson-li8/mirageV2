@@ -34,7 +34,7 @@
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/anson-li8/mirageV2"><span class="fa fab fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/anson-li8/mirageV2" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -136,14 +136,14 @@ summary statistics.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mirage.html">mirage</a></span><span class="op">(</span><span class="va">toy</span>, n1 <span class="op">=</span> <span class="fl">4315</span>, n2 <span class="op">=</span> <span class="fl">4315</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing variant-level Bayes factors</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing variant-level Bayes factors <span style="color: #B2B2B2;">[329ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing variant-level Bayes factors <span style="color: #B2B2B2;">[323ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (282 genes)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 2947 iterations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (282 genes)<span style="color: #00BB00;">✔</span> Running EM algorithm (282 genes) <span style="color: #B2B2B2;">[348ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (282 genes)<span style="color: #00BB00;">✔</span> Running EM algorithm (282 genes) <span style="color: #B2B2B2;">[353ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing LRT statistics and p-values</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing LRT statistics and p-values <span style="color: #B2B2B2;">[149ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing LRT statistics and p-values <span style="color: #B2B2B2;">[157ms]</span></span></span></code></pre></div>
 <p>The result is a <code>mirage_result</code> object:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
@@ -239,7 +239,7 @@ gene.</li>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (213 variants)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 47 iterations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (213 variants)<span style="color: #00BB00;">✔</span> Running EM algorithm (213 variants) <span style="color: #B2B2B2;">[19ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (213 variants)<span style="color: #00BB00;">✔</span> Running EM algorithm (213 variants) <span style="color: #B2B2B2;">[21ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing LRT statistics and p-values</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing LRT statistics and p-values <span style="color: #B2B2B2;">[15ms]</span></span></span>
@@ -263,14 +263,14 @@ gene.</li>
 <span>                    estimate.eta <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                    fixed_eta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.60</span>, <span class="fl">0.31</span>, <span class="fl">0.16</span>, <span class="fl">0.40</span>, <span class="fl">0.20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing variant-level Bayes factors</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing variant-level Bayes factors <span style="color: #B2B2B2;">[314ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing variant-level Bayes factors <span style="color: #B2B2B2;">[308ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (282 genes)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 2 iterations</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (282 genes)<span style="color: #00BB00;">✔</span> Running EM algorithm (282 genes) <span style="color: #B2B2B2;">[18ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm (282 genes)<span style="color: #00BB00;">✔</span> Running EM algorithm (282 genes) <span style="color: #B2B2B2;">[20ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing LRT statistics and p-values</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing LRT statistics and p-values <span style="color: #B2B2B2;">[135ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Computing LRT statistics and p-values <span style="color: #B2B2B2;">[141ms]</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_fixed</span><span class="op">$</span><span class="va">BF.PP.gene</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     Gene          BF    post.prob</span></span>
 <span><span class="co">#&gt; 1    LPA 0.009867872 0.0009560602</span></span>

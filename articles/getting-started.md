@@ -58,14 +58,14 @@ Run the analysis:
 
 res <- mirage(toy, n1 = 4315, n2 = 4315)
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [329ms]
+#> ✔ Computing variant-level Bayes factors [323ms]
 #> 
 #> ℹ Running EM algorithm (282 genes)
 #> ✔ EM converged in 2947 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [348ms]
+#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [353ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [149ms]
+#> ✔ Computing LRT statistics and p-values [157ms]
 ```
 
 The result is a `mirage_result` object:
@@ -169,7 +169,7 @@ res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
 #> 
 #> ℹ Running EM algorithm (213 variants)
 #> ✔ EM converged in 47 iterations
-#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [19ms]
+#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [21ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
 #> ✔ Computing LRT statistics and p-values [15ms]
@@ -195,14 +195,14 @@ res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
                     estimate.eta = FALSE,
                     fixed_eta = c(0.60, 0.31, 0.16, 0.40, 0.20))
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [314ms]
+#> ✔ Computing variant-level Bayes factors [308ms]
 #> 
 #> ℹ Running EM algorithm (282 genes)
 #> ✔ EM converged in 2 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [18ms]
+#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [20ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [135ms]
+#> ✔ Computing LRT statistics and p-values [141ms]
 head(res_fixed$BF.PP.gene)
 #>     Gene          BF    post.prob
 #> 1    LPA 0.009867872 0.0009560602

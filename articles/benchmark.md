@@ -57,11 +57,11 @@ cat("\n--- Timing Results ---\n")
 #> 
 #> --- Timing Results ---
 cat(sprintf("mirage  (original): %.2fs\n", t_v1["elapsed"]))
-#> mirage  (original): 79.88s
+#> mirage  (original): 82.47s
 cat(sprintf("mirageV2:           %.2fs\n", t_v2["elapsed"]))
-#> mirageV2:           0.71s
+#> mirageV2:           0.73s
 cat(sprintf("Speedup:            %.1fx\n", t_v1["elapsed"] / t_v2["elapsed"]))
-#> Speedup:            113.1x
+#> Speedup:            113.4x
 ```
 
 ``` r
