@@ -52,6 +52,10 @@ print.mirage_result <- function(x, ...) {
   cli::cli_text("Number of genes analyzed: {nrow(x$BF.PP.gene)}")
   cli::cli_text("Number of variant categories: {length(x$original_categories)}")
   cli::cli_text("Estimated proportion of risk genes (delta): {round(x$delta.est$delta.est, 4)}")
+  eta_display <- x$eta.est
+  eta_display <- cbind(category = rownames(eta_display), eta_display)
+  rownames(eta_display) <- NULL
+  print(eta_display, row.names = FALSE)
   cli::cli_h2("Top 5 Genes by Posterior Probability")
   top_genes <- head(x$BF.PP.gene[order(x$BF.PP.gene$post.prob, decreasing = TRUE), ], 5)
   print(top_genes, row.names = FALSE)
@@ -64,6 +68,9 @@ print.mirage_vs_result <- function(x, ...) {
   cli::cli_text("Number of variants analyzed: {nrow(x$full.info)}")
   cli::cli_text("Number of variant categories: {length(x$original_categories)}")
   cli::cli_h2("Category-specific risk proportions (eta)")
-  print(x$eta.est, row.names = FALSE)
+  eta_display <- x$eta.est
+  eta_display <- cbind(category = rownames(eta_display), eta_display)
+  rownames(eta_display) <- NULL
+  print(eta_display, row.names = FALSE)
   invisible(x)
 }

@@ -10,7 +10,7 @@
 coverage](https://codecov.io/gh/anson-li8/mirageV2/graph/badge.svg)](https://app.codecov.io/gh/anson-li8/mirageV2)
 <!-- badges: end -->
 
-`mirageV2` is a refactor and performance improvement of the
+`mirageV2` is a high-performance rewrite of the
 [`mirage`](https://github.com/xinhe-lab/mirage) package for rare variant
 (RV) association testing using a Bayesian mixture model. It models
 variants in a gene as a mixture of risk and non-risk variants, with
@@ -22,12 +22,17 @@ conservation scores and protein impact predictions.
 | Area | `mirage` | `mirageV2` |
 |----|----|----|
 | **Numerical stability** | Probability-space EM with `ifelse(bb==Inf, 3e300, bb)` overflow patches | Log-space EM with `log_sum_exp` throughout |
-| **BF computation** | R `integrate()` per variant in a loop | Vectorized C++ composite Simpson’s rule via Rcpp |
-| **EM engine** | Duplicated `vapply`/nested loops in `mirage()` and `mirage_vs()` | Single unified engine, vectorized with `rowsum`/`table` |
-| **Input validation** | Implicit column guessing | Strict S3 validation with `cli` error messages |
-| **Output** | Loose unnamed lists | S3 classes (`mirage_result`, `mirage_vs_result`) with `print`, `summary`, `tidy` methods |
+| **BF computation** | R `integrate()` per variant in a loop | C++ composite Simpson’s rule (vectorized) |
+| **EM engine** | Duplicated R `vapply`/nested loops | Single unified C++ EM engine |
+| **Input validation** | Implicit column guessing | Strict validation with `cli` error messages |
+| **Output** | Loose unnamed lists | S3 classes with `print`, `summary`, `tidy` methods |
 | **Testing** | None | 56 `testthat` tests covering edge cases |
-| **Performance** | ~160s on `mirage_toy` (282 genes) | **~10s** (15x speedup) |
+| **Performance** | ~135s on `mirage_toy` (282 genes) | **~4.4s** (**30x speedup**) |
+| **Numerical equivalence** | — | Max posterior prob. diff: 4.6e-5 vs original |
+
+See the [benchmark
+vignette](https://anson-li8.github.io/mirageV2/articles/benchmark.html)
+for detailed timing and equivalence results.
 
 ## Installation
 
@@ -99,7 +104,9 @@ Same as above without the `Gene` column.
 
 See the [original `mirage`
 documentation](https://xinhe-lab.github.io/mirage/) for full method
-details.
+details, and the [method
+tutorial](https://anson-li8.github.io/mirageV2/articles/methodtutorial.html)
+for a derivation walkthrough.
 
 ## Session information
 

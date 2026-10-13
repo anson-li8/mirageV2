@@ -3,5 +3,6 @@
 #' @importFrom generics tidy
 #' @importFrom stats pchisq setNames
 #' @importFrom utils head
+#' @export tidy
 #' @keywords internal
 "_PACKAGE"

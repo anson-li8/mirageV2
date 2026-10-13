@@ -10,6 +10,7 @@ S3method(summary,mirage_result)
 S3method(summary,mirage_vs_result)
 export(mirage)
 export(mirage_vs)
+export(tidy)
 importFrom(Rcpp,sourceCpp)
 importFrom(generics,tidy)
 importFrom(stats,
