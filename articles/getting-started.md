@@ -58,14 +58,14 @@ Run the analysis:
 
 res <- mirage(toy, n1 = 4315, n2 = 4315)
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [323ms]
+#> ✔ Computing variant-level Bayes factors [204ms]
 #> 
 #> ℹ Running EM algorithm (282 genes)
 #> ✔ EM converged in 2947 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [353ms]
+#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [221ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [157ms]
+#> ✔ Computing LRT statistics and p-values [81ms]
 ```
 
 The result is a `mirage_result` object:
@@ -78,6 +78,12 @@ print(res)
 #> Number of genes analyzed: 282
 #> Number of variant categories: 5
 #> Estimated proportion of risk genes (delta): 0.9254
+#>  category    eta.est eta.pvalue
+#>         1 0.00000000  0.9999999
+#>         2 0.10309231  0.4206781
+#>         3 0.00000000  0.9999999
+#>         4 0.00000000  0.9999999
+#>         5 0.07871355  0.2782095
 #> 
 #> ── Top 5 Genes by Posterior Probability ──
 #> 
@@ -165,14 +171,14 @@ res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
 #> Warning: Input has 3 columns. Assuming columns are "No.case", "No.contr", "category" and
 #> generating "ID".
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [74ms]
+#> ✔ Computing variant-level Bayes factors [48ms]
 #> 
 #> ℹ Running EM algorithm (213 variants)
 #> ✔ EM converged in 47 iterations
-#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [21ms]
+#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [10ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [15ms]
+#> ✔ Computing LRT statistics and p-values [8ms]
 print(res_vs)
 #> 
 #> ── MIRAGE Variant-Set Analysis Result ──────────────────────────────────────────
@@ -180,8 +186,8 @@ print(res_vs)
 #> Number of variant categories: 1
 #> 
 #> ── Category-specific risk proportions (eta) ──
-#>    eta.est eta.pvalue
-#>  0.1063957 0.05768073
+#>  category   eta.est eta.pvalue
+#>         1 0.1063957 0.05768073
 ```
 
 ## Fixed eta
@@ -195,14 +201,14 @@ res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
                     estimate.eta = FALSE,
                     fixed_eta = c(0.60, 0.31, 0.16, 0.40, 0.20))
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [308ms]
+#> ✔ Computing variant-level Bayes factors [198ms]
 #> 
 #> ℹ Running EM algorithm (282 genes)
 #> ✔ EM converged in 2 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [20ms]
+#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [11ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [141ms]
+#> ✔ Computing LRT statistics and p-values [69ms]
 head(res_fixed$BF.PP.gene)
 #>     Gene          BF    post.prob
 #> 1    LPA 0.009867872 0.0009560602

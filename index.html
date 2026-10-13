@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Mixture Model Based Rare Variant Analysis on Genes (v2)">
-<meta name="description" content="A refactored successor to the mirage package.">
-<meta property="og:description" content="A refactored successor to the mirage package.">
+<meta name="description" content="Implements a high-performance successor to the mirage package for rare variant (RV) association testing using a Bayesian mixture model. Implements a C++ expectation-maximization (EM) engine in log-space for numerical stability, vectorized Bayes factor computation via composite Simpson's rule, and strict input validation with S3 output classes.">
+<meta property="og:description" content="Implements a high-performance successor to the mirage package for rare variant (RV) association testing using a Bayesian mixture model. Implements a C++ expectation-maximization (EM) engine in log-space for numerical stability, vectorized Bayes factor computation via composite Simpson's rule, and strict input validation with S3 output classes.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -49,7 +49,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><code>mirageV2</code> is a refactor and performance improvement of the <a href="https://github.com/xinhe-lab/mirage" class="external-link"><code>mirage</code></a> package for rare variant (RV) association testing using a Bayesian mixture model. It models variants in a gene as a mixture of risk and non-risk variants, with prior probabilities informed by functional annotations such as conservation scores and protein impact predictions.</p>
+<p><code>mirageV2</code> is a high-performance rewrite of the <a href="https://github.com/xinhe-lab/mirage" class="external-link"><code>mirage</code></a> package for rare variant (RV) association testing using a Bayesian mixture model. It models variants in a gene as a mixture of risk and non-risk variants, with prior probabilities informed by functional annotations such as conservation scores and protein impact predictions.</p>
 <div class="section level2">
 <h2 id="key-improvements-over-mirage">Key improvements over <code>mirage</code>
 <a class="anchor" aria-label="anchor" href="#key-improvements-over-mirage"></a>
@@ -74,24 +74,22 @@
 <tr>
 <td><strong>BF computation</strong></td>
 <td>R <code><a href="https://rdrr.io/r/stats/integrate.html" class="external-link">integrate()</a></code> per variant in a loop</td>
-<td>Vectorized C++ composite Simpson’s rule via Rcpp</td>
+<td>C++ composite Simpson’s rule (vectorized)</td>
 </tr>
 <tr>
 <td><strong>EM engine</strong></td>
-<td>Duplicated <code>vapply</code>/nested loops in <code><a href="reference/mirage.html">mirage()</a></code> and <code><a href="reference/mirage_vs.html">mirage_vs()</a></code>
-</td>
-<td>Single unified engine, vectorized with <code>rowsum</code>/<code>table</code>
-</td>
+<td>Duplicated R <code>vapply</code>/nested loops</td>
+<td>Single unified C++ EM engine</td>
 </tr>
 <tr>
 <td><strong>Input validation</strong></td>
 <td>Implicit column guessing</td>
-<td>Strict S3 validation with <code>cli</code> error messages</td>
+<td>Strict validation with <code>cli</code> error messages</td>
 </tr>
 <tr>
 <td><strong>Output</strong></td>
 <td>Loose unnamed lists</td>
-<td>S3 classes (<code>mirage_result</code>, <code>mirage_vs_result</code>) with <code>print</code>, <code>summary</code>, <code>tidy</code> methods</td>
+<td>S3 classes with <code>print</code>, <code>summary</code>, <code>tidy</code> methods</td>
 </tr>
 <tr>
 <td><strong>Testing</strong></td>
@@ -100,12 +98,18 @@
 </tr>
 <tr>
 <td><strong>Performance</strong></td>
-<td>~160s on <code>mirage_toy</code> (282 genes)</td>
+<td>~135s on <code>mirage_toy</code> (282 genes)</td>
 <td>
-<strong>~10s</strong> (15x speedup)</td>
+<strong>~4.4s</strong> (<strong>30x speedup</strong>)</td>
+</tr>
+<tr>
+<td><strong>Numerical equivalence</strong></td>
+<td>—</td>
+<td>Max posterior prob. diff: 4.6e-5 vs original</td>
 </tr>
 </tbody>
 </table>
+<p>See the <a href="https://anson-li8.github.io/mirageV2/articles/benchmark.html" class="external-link">benchmark vignette</a> for detailed timing and equivalence results.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -198,7 +202,7 @@
 <li>Parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>δ</mi><mo>,</mo><msub><mi>η</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>η</mi><mi>K</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\delta, \eta_1, \ldots, \eta_K)</annotation></semantics></math> are estimated via EM in log-space.</li>
 <li>Gene-level posterior probabilities and likelihood ratio test p-values are reported.</li>
 </ul>
-<p>See the <a href="https://xinhe-lab.github.io/mirage/" class="external-link">original <code>mirage</code> documentation</a> for full method details.</p>
+<p>See the <a href="https://xinhe-lab.github.io/mirage/" class="external-link">original <code>mirage</code> documentation</a> for full method details, and the <a href="https://anson-li8.github.io/mirageV2/articles/methodtutorial.html" class="external-link">method tutorial</a> for a derivation walkthrough.</p>
 </div>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>

@@ -1,6 +1,10 @@
 # mirageV2: Mixture Model Based Rare Variant Analysis on Genes (v2)
 
-A refactored successor to the 'mirage' package.
+Implements a high-performance successor to the 'mirage' package for rare
+variant (RV) association testing using a Bayesian mixture model.
+Implements a C++ expectation-maximization (EM) engine in log-space for
+numerical stability, vectorized Bayes factor computation via composite
+Simpson's rule, and strict input validation with S3 output classes.
 
 ## Author
 
