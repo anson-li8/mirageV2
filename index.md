@@ -2,25 +2,28 @@
 
 `mirageV2` is a high-performance rewrite of the
 [`mirage`](https://github.com/xinhe-lab/mirage) package for rare variant
-(RV) association testing using a Bayesian mixture model. It models
-variants in a gene as a mixture of risk and non-risk variants, with
-prior probabilities informed by functional annotations such as
-conservation scores and protein impact predictions.
+(RV) association testing. It fits a Bayesian mixture model in which each
+variant in a gene is treated as either a risk or non-risk variant, with
+prior probabilities that depend on functional annotations such as
+conservation scores and protein-impact predictions.
 
-## Key improvements over `mirage`
+## Main improvements over `mirage`
 
 | Area | `mirage` | `mirageV2` |
 |----|----|----|
-| **Numerical stability** | Probability-space EM with `ifelse(bb==Inf, 3e300, bb)` overflow patches | Log-space EM with `log_sum_exp` throughout |
+| **Numerical stability** | Probability-space EM. Overflow is caught by swapping Inf for 3e300 with ifelse(bb==Inf, 3e300, bb), and underflow leaves denormalized values like 4.9e-324. | Log-space EM using log_sum_exp. Overflow and underflow do not occur. |
 | **BF computation** | R [`integrate()`](https://rdrr.io/r/stats/integrate.html) per variant in a loop | C++ composite Simpson’s rule (vectorized) |
-| **EM engine** | Duplicated R `vapply`/nested loops | Single unified C++ EM engine |
-| **Input validation** | Implicit column guessing | Strict validation with `cli` error messages |
-| **Output** | Loose unnamed lists | S3 classes with `print`, `summary`, `tidy` methods |
+| **EM engine** | Duplicated R `vapply`/nested loops | One C++ EM implementation |
+| **Input validation** | Columns guessed from names | Validated up front; errors use cli |
+| **Output** | Unnamed lists | S3 classes with `print`, `summary`, `tidy` methods |
 | **Testing** | None | 56 `testthat` tests covering edge cases |
-| **Performance** | ~135s on `mirage_toy` (282 genes) | **~4.4s** (**30x speedup**) |
-| **Numerical equivalence** | — | Max posterior prob. diff: 4.6e-5 vs original |
+| **Performance** | ~86.69s on `mirage_toy` (282 genes) | **~2.27s** (**38.2x speedup**) |
+| **Numerical equivalence** | n/a | Max posterior-probability difference 4.6e-5. delta is 0.925347 vs 0.925379. |
 
-See the [benchmark
+Runtime numbers come from a single run of both packages on the
+mirage_toy dataset (1000 variants across 282 genes) on Windows 11 with R
+4.6.0. Timings depend on the machine, and the original mirage package
+has to be installed for a side-by-side comparison. See the [benchmark
 vignette](https://anson-li8.github.io/mirageV2/articles/benchmark.html)
 for detailed timing and equivalence results.
 
@@ -28,10 +31,7 @@ for detailed timing and equivalence results.
 
 ``` r
 
-# Install devtools if needed
-install.packages("devtools")
-
-# Install mirageV2
+# install.packages("devtools")
 devtools::install_github("anson-li8/mirageV2")
 ```
 
@@ -41,7 +41,7 @@ devtools::install_github("anson-li8/mirageV2")
 
 library(mirageV2)
 
-# Load bundled toy data
+# Load toy data
 toy <- read.csv(system.file("extdata", "mirage_toy.csv", package = "mirageV2"),
                 stringsAsFactors = FALSE)
 
@@ -50,7 +50,7 @@ res <- mirage(toy, n1 = 4315, n2 = 4315)
 print(res)
 summary(res)
 
-# Tidy output (broom-compatible)
+# Tidy output via a broom-style tidy() method
 tidy(res)
 
 # Variant-set analysis

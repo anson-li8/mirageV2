@@ -48,10 +48,10 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><code>mirageV2</code> is a high-performance rewrite of the <a href="https://github.com/xinhe-lab/mirage" class="external-link"><code>mirage</code></a> package for rare variant (RV) association testing using a Bayesian mixture model. It models variants in a gene as a mixture of risk and non-risk variants, with prior probabilities informed by functional annotations such as conservation scores and protein impact predictions.</p>
+<p><code>mirageV2</code> is a high-performance rewrite of the <a href="https://github.com/xinhe-lab/mirage" class="external-link"><code>mirage</code></a> package for rare variant (RV) association testing. It fits a Bayesian mixture model in which each variant in a gene is treated as either a risk or non-risk variant, with prior probabilities that depend on functional annotations such as conservation scores and protein-impact predictions.</p>
 <div class="section level2">
-<h2 id="key-improvements-over-mirage">Key improvements over <code>mirage</code>
-<a class="anchor" aria-label="anchor" href="#key-improvements-over-mirage"></a>
+<h2 id="main-improvements-over-mirage">Main improvements over <code>mirage</code>
+<a class="anchor" aria-label="anchor" href="#main-improvements-over-mirage"></a>
 </h2>
 <table class="table">
 <colgroup>
@@ -67,8 +67,8 @@
 <tbody>
 <tr>
 <td><strong>Numerical stability</strong></td>
-<td>Probability-space EM with <code>ifelse(bb==Inf, 3e300, bb)</code> overflow patches</td>
-<td>Log-space EM with <code>log_sum_exp</code> throughout</td>
+<td>Probability-space EM. Overflow is caught by swapping Inf for 3e300 with ifelse(bb==Inf, 3e300, bb), and underflow leaves denormalized values like 4.9e-324.</td>
+<td>Log-space EM using log_sum_exp. Overflow and underflow do not occur.</td>
 </tr>
 <tr>
 <td><strong>BF computation</strong></td>
@@ -78,16 +78,16 @@
 <tr>
 <td><strong>EM engine</strong></td>
 <td>Duplicated R <code>vapply</code>/nested loops</td>
-<td>Single unified C++ EM engine</td>
+<td>One C++ EM implementation</td>
 </tr>
 <tr>
 <td><strong>Input validation</strong></td>
-<td>Implicit column guessing</td>
-<td>Strict validation with <code>cli</code> error messages</td>
+<td>Columns guessed from names</td>
+<td>Validated up front; errors use cli</td>
 </tr>
 <tr>
 <td><strong>Output</strong></td>
-<td>Loose unnamed lists</td>
+<td>Unnamed lists</td>
 <td>S3 classes with <code>print</code>, <code>summary</code>, <code>tidy</code> methods</td>
 </tr>
 <tr>
@@ -97,27 +97,24 @@
 </tr>
 <tr>
 <td><strong>Performance</strong></td>
-<td>~135s on <code>mirage_toy</code> (282 genes)</td>
+<td>~86.69s on <code>mirage_toy</code> (282 genes)</td>
 <td>
-<strong>~4.4s</strong> (<strong>30x speedup</strong>)</td>
+<strong>~2.27s</strong> (<strong>38.2x speedup</strong>)</td>
 </tr>
 <tr>
 <td><strong>Numerical equivalence</strong></td>
-<td>—</td>
-<td>Max posterior prob. diff: 4.6e-5 vs original</td>
+<td>n/a</td>
+<td>Max posterior-probability difference 4.6e-5. delta is 0.925347 vs 0.925379.</td>
 </tr>
 </tbody>
 </table>
-<p>See the <a href="https://anson-li8.github.io/mirageV2/articles/benchmark.html" class="external-link">benchmark vignette</a> for detailed timing and equivalence results.</p>
+<p>Runtime numbers come from a single run of both packages on the mirage_toy dataset (1000 variants across 282 genes) on Windows 11 with R 4.6.0. Timings depend on the machine, and the original mirage package has to be installed for a side-by-side comparison. See the <a href="https://anson-li8.github.io/mirageV2/articles/benchmark.html" class="external-link">benchmark vignette</a> for detailed timing and equivalence results.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install devtools if needed</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Install mirageV2</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"anson-li8/mirageV2"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -126,7 +123,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mirageV2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Load bundled toy data</span></span>
+<span><span class="co"># Load toy data</span></span>
 <span><span class="va">toy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mirage_toy.csv"</span>, package <span class="op">=</span> <span class="st">"mirageV2"</span><span class="op">)</span>,</span>
 <span>                stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
@@ -135,7 +132,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Tidy output (broom-compatible)</span></span>
+<span><span class="co"># Tidy output via a broom-style tidy() method</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Variant-set analysis</span></span>
