@@ -58,14 +58,14 @@ Run the analysis:
 
 res <- mirage(toy, n1 = 4315, n2 = 4315)
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [204ms]
+#> ✔ Computing variant-level Bayes factors [317ms]
 #> 
 #> ℹ Running EM algorithm (282 genes)
 #> ✔ EM converged in 2947 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [221ms]
+#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [299ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [81ms]
+#> ✔ Computing LRT statistics and p-values [157ms]
 ```
 
 The result is a `mirage_result` object:
@@ -171,14 +171,14 @@ res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
 #> Warning: Input has 3 columns. Assuming columns are "No.case", "No.contr", "category" and
 #> generating "ID".
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [48ms]
+#> ✔ Computing variant-level Bayes factors [72ms]
 #> 
 #> ℹ Running EM algorithm (213 variants)
 #> ✔ EM converged in 47 iterations
-#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [10ms]
+#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [19ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [8ms]
+#> ✔ Computing LRT statistics and p-values [15ms]
 print(res_vs)
 #> 
 #> ── MIRAGE Variant-Set Analysis Result ──────────────────────────────────────────
@@ -201,14 +201,14 @@ res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
                     estimate.eta = FALSE,
                     fixed_eta = c(0.60, 0.31, 0.16, 0.40, 0.20))
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [198ms]
+#> ✔ Computing variant-level Bayes factors [301ms]
 #> 
 #> ℹ Running EM algorithm (282 genes)
 #> ✔ EM converged in 2 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [11ms]
+#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [19ms]
 #> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [69ms]
+#> ✔ Computing LRT statistics and p-values [141ms]
 head(res_fixed$BF.PP.gene)
 #>     Gene          BF    post.prob
 #> 1    LPA 0.009867872 0.0009560602
@@ -237,11 +237,11 @@ head(res_fixed$BF.PP.gene)
 sessionInfo()
 #> R version 4.6.1 (2026-06-24)
 #> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 24.04.5 LTS
+#> Running under: Ubuntu 26.04.1 LTS
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.32.so;  LAPACK version 3.12.0
 #> 
 #> locale:
 #>  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
@@ -260,7 +260,7 @@ sessionInfo()
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
-#>  [5] xfun_0.61         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  
+#>  [5] xfun_0.62         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  
 #>  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      
 #> [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2
 #> [17] compiler_4.6.1    tools_4.6.1       ragg_1.5.2        bslib_0.12.0     

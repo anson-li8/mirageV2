@@ -57,11 +57,11 @@ cat("\n--- Timing Results ---\n")
 #> 
 #> --- Timing Results ---
 cat(sprintf("mirage  (original): %.2fs\n", t_v1["elapsed"]))
-#> mirage  (original): 46.04s
+#> mirage  (original): 86.69s
 cat(sprintf("mirageV2:           %.2fs\n", t_v2["elapsed"]))
-#> mirageV2:           0.47s
+#> mirageV2:           2.27s
 cat(sprintf("Speedup:            %.1fx\n", t_v1["elapsed"] / t_v2["elapsed"]))
-#> Speedup:            98.4x
+#> Speedup:            38.2x
 ```
 
 ``` r
@@ -115,22 +115,19 @@ print(data.frame(
 ``` r
 
 sessionInfo()
-#> R version 4.6.1 (2026-06-24)
-#> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 24.04.5 LTS
+#> R version 4.6.0 (2026-04-24 ucrt)
+#> Platform: x86_64-w64-mingw32/x64
+#> Running under: Windows 11 x64 (build 29639)
 #> 
 #> Matrix products: default
-#> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+#>   LAPACK version 3.12.1
 #> 
 #> locale:
-#>  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
-#>  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
-#>  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-#> [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+#> [1] LC_COLLATE=Spanish_Latin America.utf8  LC_CTYPE=Spanish_Latin America.utf8    LC_MONETARY=Spanish_Latin America.utf8
+#> [4] LC_NUMERIC=C                           LC_TIME=Spanish_Latin America.utf8    
 #> 
-#> time zone: UTC
-#> tzcode source: system (glibc)
+#> time zone: America/Chicago
+#> tzcode source: internal
 #> 
 #> attached base packages:
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -139,13 +136,13 @@ sessionInfo()
 #> [1] mirageV2_0.1.0
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] vctrs_0.7.3       crayon_1.5.3      cli_3.6.6         knitr_1.52       
-#>  [5] rlang_1.3.0       xfun_0.61         otel_0.2.0        generics_0.1.4   
-#>  [9] textshaping_1.0.5 jsonlite_2.0.0    prettyunits_1.2.0 htmltools_0.5.9  
-#> [13] mirage_0.1.0.0    ragg_1.5.2        sass_0.4.10       hms_1.1.4        
-#> [17] rmarkdown_2.32    evaluate_1.0.5    jquerylib_0.1.4   fastmap_1.2.0    
-#> [21] progress_1.2.3    yaml_2.3.12       lifecycle_1.0.5   compiler_4.6.1   
-#> [25] fs_2.1.0          pkgconfig_2.0.3   Rcpp_1.1.2        systemfonts_1.3.2
-#> [29] digest_0.6.39     R6_2.6.1          bslib_0.12.0      tools_4.6.1      
-#> [33] pkgdown_2.2.1     cachem_1.1.0      desc_1.4.3
+#>  [1] generics_0.1.4    xml2_1.6.0        hms_1.1.4         digest_0.6.39     magrittr_2.0.5    evaluate_1.0.5   
+#>  [7] pkgload_1.5.3     fastmap_1.2.0     rdtools_0.1.0     rprojroot_2.1.1   processx_3.9.0    progress_1.2.3   
+#> [13] pkgbuild_1.4.8    sessioninfo_1.2.4 brio_1.1.5        rcmdcheck_1.4.0   purrr_1.2.2       mirage_0.1.0.0   
+#> [19] cli_3.6.6         rlang_1.3.0       crayon_1.5.3      ellipsis_0.3.3    commonmark_2.0.0  withr_3.0.3      
+#> [25] cachem_1.1.0      yaml_2.3.12       devtools_2.5.2    otel_0.2.0        tools_4.6.0       memoise_2.0.1    
+#> [31] curl_7.1.0        vctrs_0.7.3       R6_2.6.1          lifecycle_1.0.5   fs_2.1.0          usethis_3.2.1    
+#> [37] xopen_1.0.1       pkgconfig_2.0.3   desc_1.4.3        callr_3.8.0       pillar_1.11.1     glue_1.8.1       
+#> [43] Rcpp_1.1.2        xfun_0.60         tibble_3.3.1      rstudioapi_0.19.0 knitr_1.51        htmltools_0.5.9  
+#> [49] rmarkdown_2.31    testthat_3.3.2    compiler_4.6.0    prettyunits_1.2.0 roxygen2_8.1.0
 ```
