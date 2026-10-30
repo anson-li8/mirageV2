@@ -195,10 +195,10 @@
 <li>Each variant is modeled as risk (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">Z_{ij} = 1</annotation></semantics></math>) or non-risk (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">Z_{ij} = 0</annotation></semantics></math>) with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mn>1</mn><mo>∣</mo><msub><mi>U</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>η</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">P(Z_{ij} = 1 \mid U_i = 1) = \eta_k</annotation></semantics></math>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> is the variant’s annotation category.</li>
 <li>Each gene is a risk gene (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">U_i = 1</annotation></semantics></math>) with probability <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math>.</li>
 <li>Variant-level Bayes factors are computed by integrating over a Gamma-distributed relative risk parameter.</li>
-<li>Parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>δ</mi><mo>,</mo><msub><mi>η</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>η</mi><mi>K</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\delta, \eta_1, \ldots, \eta_K)</annotation></semantics></math> are estimated via EM in log-space.</li>
+<li>Parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>δ</mi><mo>,</mo><msub><mi>η</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>η</mi><mi>K</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\delta, \eta_1, \ldots, \eta_K)</annotation></semantics></math> are estimated via EM (Expectation-Maximization) in log-space.</li>
 <li>Gene-level posterior probabilities and likelihood ratio test p-values are reported.</li>
 </ul>
-<p>See the <a href="https://xinhe-lab.github.io/mirage/" class="external-link">original <code>mirage</code> documentation</a> for full method details, and the <a href="https://anson-li8.github.io/mirageV2/articles/methodtutorial.html" class="external-link">method tutorial</a> for a derivation walkthrough.</p>
+<p>See the <a href="https://xinhe-lab.github.io/mirage/" class="external-link">original <code>mirage</code> documentation</a> for full method details, and the <a href="https://anson-li8.github.io/mirageV2/articles/methodtutorial.html" class="external-link">method tutorial</a> for a usage walkthrough.</p>
 </div>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
@@ -228,7 +228,7 @@
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] compiler_4.6.0    fastmap_1.2.0     cli_3.6.6         tools_4.6.0      </span></span>
 <span><span class="co">#&gt;  [5] htmltools_0.5.9   otel_0.2.0        rstudioapi_0.19.0 yaml_2.3.12      </span></span>
-<span><span class="co">#&gt;  [9] rmarkdown_2.31    knitr_1.51        xfun_0.60         digest_0.6.39    </span></span>
+<span><span class="co">#&gt;  [9] rmarkdown_2.32    knitr_1.52        xfun_0.62         digest_0.6.39    </span></span>
 <span><span class="co">#&gt; [13] rlang_1.3.0       evaluate_1.0.5</span></span></code></pre></div>
 </div>
 </div>

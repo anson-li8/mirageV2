@@ -2,6 +2,8 @@
 
 ## Installation
 
+The package is installed from GitHub:
+
 ``` r
 
 devtools::install_github("anson-li8/mirageV2")
@@ -9,21 +11,22 @@ devtools::install_github("anson-li8/mirageV2")
 
 ## Input format
 
-`mirageV2` requires a data frame with variant-level summary statistics.
+Both functions take a data frame of variant-level summary statistics.
+The required columns are:
 
 ### Gene-level (`mirage`)
 
-| Column     | Description                                 |
-|------------|---------------------------------------------|
-| `ID`       | Variant identifier                          |
-| `Gene`     | Gene name                                   |
-| `No.case`  | Allele count in cases                       |
-| `No.contr` | Allele count in controls                    |
-| `category` | Variant annotation group (or `group.index`) |
+| Column | Description |
+|----|----|
+| `ID` | Variant identifier |
+| `Gene` | Gene name |
+| `No.case` | Allele count in cases |
+| `No.contr` | Allele count in controls |
+| `category` | Variant annotation group; `group.index` is accepted as an alias |
 
 ### Variant-set level (`mirage_vs`)
 
-Same as above without the `Gene` column.
+Same columns, without the `Gene` column.
 
 ## Gene-level analysis
 
@@ -52,23 +55,18 @@ head(toy)
 #> 6   1:19441304-19441307_CCTT_C   UBR4       2        0           2
 ```
 
-Run the analysis:
+Fit the model with 4315 cases and 4315 controls:
 
 ``` r
 
 res <- mirage(toy, n1 = 4315, n2 = 4315)
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [262ms]
-#> 
-#> ℹ Running EM algorithm (282 genes)
+#> ℹ Running EM algorithm over 282 genes
 #> ✔ EM converged in 2947 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [222ms]
-#> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [112ms]
 ```
 
-The result is a `mirage_result` object:
+[`mirage()`](../reference/mirage.md) returns a `mirage_result` object:
 
 ``` r
 
@@ -95,13 +93,13 @@ print(res)
 #>  MYCBP2 1.146437 0.9342839
 ```
 
-Key outputs:
+The main elements are:
 
-- `res$delta.est`: Estimated proportion of risk genes with p-value.
-- `res$eta.est`: Estimated proportion of risk variants per category with
-  p-values.
+- `res$delta.est`: estimated proportion of risk genes, with a p-value.
+- `res$eta.est`: estimated proportion of risk variants per category,
+  with p-values.
 - `res$BF.PP.gene`: Bayes factors and posterior probabilities per gene.
-- `res$BF.all`: Variant-level Bayes factors grouped by gene.
+- `res$BF.all`: variant-level Bayes factors grouped by gene.
 
 ``` r
 
@@ -133,7 +131,8 @@ summary(res)
 #>    LTBP3 1.095385 0.9314312
 ```
 
-Tidy output:
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html) returns the
+gene-level results as a data frame:
 
 ``` r
 
@@ -165,20 +164,17 @@ head(vs_toy)
 #> 6       2        0           1
 ```
 
+Fit the variant-set model on the variant-set toy data:
+
 ``` r
 
 res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
 #> Warning: Input has 3 columns. Assuming columns are "No.case", "No.contr", "category" and
 #> generating "ID".
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [59ms]
-#> 
-#> ℹ Running EM algorithm (213 variants)
+#> ℹ Running EM algorithm over 213 variants
 #> ✔ EM converged in 47 iterations
-#> ℹ Running EM algorithm (213 variants)✔ Running EM algorithm (213 variants) [14ms]
-#> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [11ms]
 print(res_vs)
 #> 
 #> ── MIRAGE Variant-Set Analysis Result ──────────────────────────────────────────
@@ -186,14 +182,15 @@ print(res_vs)
 #> Number of variant categories: 1
 #> 
 #> ── Category-specific risk proportions (eta) ──
+#> 
 #>  category   eta.est eta.pvalue
 #>         1 0.1063957 0.05768073
 ```
 
 ## Fixed eta
 
-When external annotation data provides reliable risk proportions, fix
-`eta` instead of estimating it:
+If you have external annotation data with risk proportions you trust,
+set `estimate.eta = FALSE` and pass them with `fixed_eta`:
 
 ``` r
 
@@ -201,14 +198,9 @@ res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
                     estimate.eta = FALSE,
                     fixed_eta = c(0.60, 0.31, 0.16, 0.40, 0.20))
 #> ℹ Computing variant-level Bayes factors
-#> ✔ Computing variant-level Bayes factors [250ms]
-#> 
-#> ℹ Running EM algorithm (282 genes)
+#> ℹ Running EM algorithm over 282 genes
 #> ✔ EM converged in 2 iterations
-#> ℹ Running EM algorithm (282 genes)✔ Running EM algorithm (282 genes) [14ms]
-#> 
 #> ℹ Computing LRT statistics and p-values
-#> ✔ Computing LRT statistics and p-values [99ms]
 head(res_fixed$BF.PP.gene)
 #>     Gene          BF    post.prob
 #> 1    LPA 0.009867872 0.0009560602
@@ -235,7 +227,7 @@ head(res_fixed$BF.PP.gene)
 ``` r
 
 sessionInfo()
-#> R version 4.6.1 (2026-06-24)
+#> R version 4.6.2 (2026-10-29)
 #> Platform: x86_64-pc-linux-gnu
 #> Running under: Ubuntu 26.04.1 LTS
 #> 
@@ -263,7 +255,7 @@ sessionInfo()
 #>  [5] xfun_0.62         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  
 #>  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      
 #> [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2
-#> [17] compiler_4.6.1    tools_4.6.1       ragg_1.5.2        bslib_0.12.0     
+#> [17] compiler_4.6.2    tools_4.6.2       ragg_1.5.2        bslib_0.12.0     
 #> [21] evaluate_1.0.5    Rcpp_1.1.2        yaml_2.3.12       otel_0.2.0       
 #> [25] jsonlite_2.0.0    rlang_1.3.0       fs_2.1.0
 ```
