@@ -97,8 +97,8 @@ Same as above without the `Gene` column.
 - Each gene is a risk gene ($U_i = 1$) with probability $\delta$.
 - Variant-level Bayes factors are computed by integrating over a
   Gamma-distributed relative risk parameter.
-- Parameters $(\delta, \eta_1, \ldots, \eta_K)$ are estimated via EM in
-  log-space.
+- Parameters $(\delta, \eta_1, \ldots, \eta_K)$ are estimated via EM
+  (Expectation-Maximization) in log-space.
 - Gene-level posterior probabilities and likelihood ratio test p-values
   are reported.
 
@@ -106,7 +106,7 @@ See the [original `mirage`
 documentation](https://xinhe-lab.github.io/mirage/) for full method
 details, and the [method
 tutorial](https://anson-li8.github.io/mirageV2/articles/methodtutorial.html)
-for a derivation walkthrough.
+for a usage walkthrough.
 
 ## Session information
 
@@ -135,6 +135,6 @@ sessionInfo()
 #> loaded via a namespace (and not attached):
 #>  [1] compiler_4.6.0    fastmap_1.2.0     cli_3.6.6         tools_4.6.0      
 #>  [5] htmltools_0.5.9   otel_0.2.0        rstudioapi_0.19.0 yaml_2.3.12      
-#>  [9] rmarkdown_2.31    knitr_1.51        xfun_0.60         digest_0.6.39    
+#>  [9] rmarkdown_2.32    knitr_1.52        xfun_0.62         digest_0.6.39    
 #> [13] rlang_1.3.0       evaluate_1.0.5
 ```

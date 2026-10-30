@@ -42,7 +42,7 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
   gamma_cat <- rep_len(gamma, n_categories)
   sigma_cat <- rep_len(sigma, n_categories)
 
-  if (verbose) cli::cli_progress_step("Computing variant-level Bayes factors")
+  if (verbose) cli::cli_alert_info("Computing variant-level Bayes factors")
 
   log_var_bf <- calc_log_bf(
     dat$No.case, dat$No.contr,
@@ -56,7 +56,7 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
   n_genes <- length(unique_genes)
 
   # EM
-  if (verbose) cli::cli_progress_step("Running EM algorithm ({n_genes} genes)")
+  if (verbose) cli::cli_alert_info("Running EM algorithm over {n_genes} genes")
 
   em <- em_mirage(
     type = "gene", log_var_bf = log_var_bf, category = dat$category,
@@ -66,12 +66,11 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
     fixed_eta = fixed_eta, max_iter = max.iter, tol = tol, verbose = verbose
   )
 
-  if (verbose) {
-    if (em$converged) {
-      cli::cli_alert_success("EM converged in {em$n.iter} iterations")
-    } else {
-      cli::cli_alert_warning("EM did not converge after {em$n.iter} iterations")
-    }
+  if (verbose && em$converged) {
+    cli::cli_alert_success("EM converged in {em$n.iter} iterations")
+  }
+  if (verbose && !em$converged) {
+    cli::cli_alert_warning("EM did not converge after {em$n.iter} iterations")
   }
 
   # Gene-level BFs and posterior probabilities
@@ -81,7 +80,7 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
   post_prob_gene <- (delta * gene_bf) / (delta * gene_bf + 1 - delta)
 
   # LRT p-values
-  if (verbose) cli::cli_progress_step("Computing LRT statistics and p-values")
+  if (verbose) cli::cli_alert_info("Computing LRT statistics and p-values")
 
   # Per-gene LRT (df = 2: delta + one pooled eta)
   log_lkhd <- vapply(em$gene.log.bf, function(lb) {
@@ -169,7 +168,7 @@ mirage_vs <- function(data, n1, n2, gamma = 3, sigma = 2,
   gamma_cat <- rep_len(gamma, n_categories)
   sigma_cat <- rep_len(sigma, n_categories)
 
-  if (verbose) cli::cli_progress_step("Computing variant-level Bayes factors")
+  if (verbose) cli::cli_alert_info("Computing variant-level Bayes factors")
 
   log_var_bf <- calc_log_bf(
     dat$No.case, dat$No.contr,
@@ -178,7 +177,7 @@ mirage_vs <- function(data, n1, n2, gamma = 3, sigma = 2,
   )
 
   # EM
-  if (verbose) cli::cli_progress_step("Running EM algorithm ({nrow(dat)} variants)")
+  if (verbose) cli::cli_alert_info("Running EM algorithm over {nrow(dat)} variants")
 
   em <- em_mirage(
     type = "vs", log_var_bf = log_var_bf, category = dat$category,
@@ -188,16 +187,15 @@ mirage_vs <- function(data, n1, n2, gamma = 3, sigma = 2,
     fixed_eta = fixed_eta, max_iter = max.iter, tol = tol, verbose = verbose
   )
 
-  if (verbose) {
-    if (em$converged) {
-      cli::cli_alert_success("EM converged in {em$n.iter} iterations")
-    } else {
-      cli::cli_alert_warning("EM did not converge after {em$n.iter} iterations")
-    }
+  if (verbose && em$converged) {
+    cli::cli_alert_success("EM converged in {em$n.iter} iterations")
+  }
+  if (verbose && !em$converged) {
+    cli::cli_alert_warning("EM did not converge after {em$n.iter} iterations")
   }
 
   # LRT p-values
-  if (verbose) cli::cli_progress_step("Computing LRT statistics and p-values")
+  if (verbose) cli::cli_alert_info("Computing LRT statistics and p-values")
 
   eta <- em$eta.est
 
