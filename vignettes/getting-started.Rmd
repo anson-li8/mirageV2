@@ -14,13 +14,15 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ## Installation
 
+The package is installed from GitHub:
+
 ```{r, eval=FALSE}
 devtools::install_github("anson-li8/mirageV2")
 ```
 
 ## Input format
 
-`mirageV2` requires a data frame with variant-level summary statistics.
+Both functions take a data frame of variant-level summary statistics. The required columns are:
 
 ### Gene-level (`mirage`)
 
@@ -30,11 +32,11 @@ devtools::install_github("anson-li8/mirageV2")
 | `Gene` | Gene name |
 | `No.case` | Allele count in cases |
 | `No.contr` | Allele count in controls |
-| `category` | Variant annotation group (or `group.index`) |
+| `category` | Variant annotation group; `group.index` is accepted as an alias |
 
 ### Variant-set level (`mirage_vs`)
 
-Same as above without the `Gene` column.
+Same columns, without the `Gene` column.
 
 ## Gene-level analysis
 
@@ -49,30 +51,30 @@ toy <- read.csv(
 head(toy)
 ```
 
-Run the analysis:
+Fit the model with 4315 cases and 4315 controls:
 
 ```{r gene-run}
 res <- mirage(toy, n1 = 4315, n2 = 4315)
 ```
 
-The result is a `mirage_result` object:
+`mirage()` returns a `mirage_result` object:
 
 ```{r gene-print}
 print(res)
 ```
 
-Key outputs:
+The main elements are:
 
-- `res$delta.est`: Estimated proportion of risk genes with p-value.
-- `res$eta.est`: Estimated proportion of risk variants per category with p-values.
+- `res$delta.est`: estimated proportion of risk genes, with a p-value.
+- `res$eta.est`: estimated proportion of risk variants per category, with p-values.
 - `res$BF.PP.gene`: Bayes factors and posterior probabilities per gene.
-- `res$BF.all`: Variant-level Bayes factors grouped by gene.
+- `res$BF.all`: variant-level Bayes factors grouped by gene.
 
 ```{r gene-summary}
 summary(res)
 ```
 
-Tidy output:
+`tidy()` returns the gene-level results as a data frame:
 
 ```{r gene-tidy}
 head(tidy(res))
@@ -88,6 +90,8 @@ vs_toy <- read.csv(
 head(vs_toy)
 ```
 
+Fit the variant-set model on the variant-set toy data:
+
 ```{r vs-run}
 res_vs <- mirage_vs(vs_toy, n1 = 4315, n2 = 4315)
 print(res_vs)
@@ -95,8 +99,7 @@ print(res_vs)
 
 ## Fixed eta
 
-When external annotation data provides reliable risk proportions, fix `eta`
-instead of estimating it:
+If you have external annotation data with risk proportions you trust, set   `estimate.eta = FALSE` and pass them with `fixed_eta`:
 
 ```{r fixed-eta}
 res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
