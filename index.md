@@ -96,9 +96,9 @@ Same as above without the `Gene` column.
 
 See the [original `mirage`
 documentation](https://xinhe-lab.github.io/mirage/) for full method
-details, and the [method
-tutorial](https://anson-li8.github.io/mirageV2/articles/getting-started.html)
-for a usage walkthrough.
+details, and the [Getting
+Started](https://anson-li8.github.io/mirageV2/articles/getting-started.html)
+article for a usage walkthrough.
 
 ## Session information
 
