@@ -1,0 +1,33 @@
+bibentry(
+  bibtype  = "Article",
+  title    = "MIRAGE: A Bayesian statistical method for gene-level rare-variant analysis incorporating functional annotations",
+  author   = c(
+    person("Shengtong", "Han"),
+    person("Xiaotong", "Sun"),
+    person("Laura", "Sloofman"),
+    person("F. Kyle", "Satterstrom"),
+    person("Xizhi", "Xu"),
+    person("Lifan", "Liang"),
+    person("Nicholas", "Knoblauch"),
+    person("Wenhui", "Sheng"),
+    person("Siming", "Zhao"),
+    person("Tan-Hoang", "Nguyen"),
+    person("Gao", "Wang"),
+    person("Joseph", "Buxbaum"),
+    person("Xin", "He"),
+    person("Autism Sequencing Consortium")
+  ),
+  year     = "2026",
+  journal  = "The American Journal of Human Genetics",
+  volume   = "113",
+  number   = "1",
+  pages    = "168-183",
+  doi      = "10.1016/j.ajhg.2025.11.013",
+  url      = "https://pubmed.ncbi.nlm.nih.gov/41421362/",
+  textVersion = paste(
+    "Han S, Sun X, Sloofman L, Satterstrom FK, Xu X, Liang L, Knoblauch N,",
+    "Sheng W, Zhao S, Nguyen TH, Wang G, Buxbaum J, He X, Autism Sequencing Consortium (2026).",
+    "MIRAGE: A Bayesian statistical method for gene-level rare-variant analysis incorporating functional annotations.",
+    "The American Journal of Human Genetics 113(1): 168-183. doi:10.1016/j.ajhg.2025.11.013"
+  )
+)
