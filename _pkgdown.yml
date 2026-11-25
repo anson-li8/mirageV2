@@ -4,8 +4,8 @@ template:
 
 navbar:
   structure:
-    left: [intro, benchmark, reference]
-    right: [github]
+    left: [intro, benchmark, reference, news]
+    right: [search, github]
   components:
     intro:
       text: "Getting Started"
