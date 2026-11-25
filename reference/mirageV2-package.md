@@ -1,10 +1,21 @@
-# mirageV2: Mixture Model Based Rare Variant Analysis on Genes (v2)
+# mirageV2: Mixture Model Based Rare Variant Analysis on Genes
 
-Implements a high-performance successor to the 'mirage' package for rare
-variant (RV) association testing using a Bayesian mixture model.
-Implements a C++ expectation-maximization (EM) engine in log-space for
-numerical stability, vectorized Bayes factor computation via composite
-Simpson's rule, and strict input validation with S3 output classes.
+Gene-level and variant-set rare-variant association tests using the
+MIRAGE mixture model (Han et al. 25,
+<https://pubmed.ncbi.nlm.nih.gov/41421362>). Bayes factors are
+integrated in C++ and the EM fit is done in log-space. A
+high-performance rewrite of the GitHub package 'mirage', with input
+checks and S3 methods for printing, summarizing, and tidying results.
+
+## See also
+
+Useful links:
+
+- <https://github.com/anson-li8/mirageV2>
+
+- <https://anson-li8.github.io/mirageV2>
+
+- Report bugs at <https://github.com/anson-li8/mirageV2/issues>
 
 ## Author
 

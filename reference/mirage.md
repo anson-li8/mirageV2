@@ -39,11 +39,12 @@ mirage(
 
 - gamma:
 
-  Hyper prior shape parameter(s). Scalar or length-K vector.
+  Prior mean of the relative-risk parameter. Scalar or length-K vector.
 
 - sigma:
 
-  Hyper prior scale parameter(s). Scalar or length-K vector.
+  Prior rate of the relative-risk parameter. Scalar or length-K vector.
+  The Gamma prior has shape gamma \* sigma and scale 1 / sigma.
 
 - eta.init:
 
@@ -85,5 +86,26 @@ An object of class `mirage_result`.
 ## Examples
 
 ``` r
-# See vignette for full examples
+toy <- data.frame(
+  ID = c("v1", "v2", "v3", "v4"),
+  Gene = c("A", "A", "B", "B"),
+  No.case = c(3L, 1L, 0L, 2L),
+  No.contr = c(1L, 0L, 2L, 0L),
+  category = c(1L, 2L, 1L, 2L)
+)
+mirage(toy, n1 = 500, n2 = 500, verbose = FALSE)
+#> 
+#> ── MIRAGE Gene-Level Analysis Result ───────────────────────────────────────────
+#> Number of genes analyzed: 2
+#> Number of variant categories: 2
+#> Estimated proportion of risk genes (delta): 1
+#>  category      eta.est eta.pvalue
+#>         1 0.0001946449  1.0000000
+#>         2 1.0000000000  0.1323021
+#> 
+#> ── Top 5 Genes by Posterior Probability ──
+#> 
+#>  Gene       BF post.prob
+#>     B 2.137230         1
+#>     A 1.452247         1
 ```

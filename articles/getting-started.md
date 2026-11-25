@@ -62,11 +62,12 @@ Fit the model with 4315 cases and 4315 controls:
 res <- mirage(toy, n1 = 4315, n2 = 4315)
 #> ℹ Computing variant-level Bayes factors
 #> ℹ Running EM algorithm over 282 genes
-#> ✔ EM converged in 2947 iterations
+#> ✔ EM converged in 5303 iterations
 #> ℹ Computing LRT statistics and p-values
 ```
 
-[`mirage()`](../reference/mirage.md) returns a `mirage_result` object:
+[`mirage()`](https://anson-li8.github.io/mirageV2/reference/mirage.md)
+returns a `mirage_result` object:
 
 ``` r
 
@@ -75,22 +76,22 @@ print(res)
 #> ── MIRAGE Gene-Level Analysis Result ───────────────────────────────────────────
 #> Number of genes analyzed: 282
 #> Number of variant categories: 5
-#> Estimated proportion of risk genes (delta): 0.9254
+#> Estimated proportion of risk genes (delta): 0.9894
 #>  category    eta.est eta.pvalue
-#>         1 0.00000000  0.9999999
-#>         2 0.10309231  0.4206781
-#>         3 0.00000000  0.9999999
-#>         4 0.00000000  0.9999999
-#>         5 0.07871355  0.2782095
+#>         1 0.00000000  0.9999998
+#>         2 0.09617393  0.4198750
+#>         3 0.00000000  0.9999998
+#>         4 0.00000000  0.9999998
+#>         5 0.07594910  0.2715666
 #> 
 #> ── Top 5 Genes by Posterior Probability ──
 #> 
 #>    Gene       BF post.prob
-#>   MACF1 2.135502 0.9636131
-#>    UBR4 1.289898 0.9411628
-#>    MIB1 1.251474 0.9394656
-#>    SPEN 1.168992 0.9354701
-#>  MYCBP2 1.146437 0.9342839
+#>   MACF1 2.097148 0.9949148
+#>    UBR4 1.278714 0.9916871
+#>    MIB1 1.234471 0.9913918
+#>    SPEN 1.163957 0.9908750
+#>  MYCBP2 1.136189 0.9906541
 ```
 
 The main elements are:
@@ -107,28 +108,28 @@ summary(res)
 #> ── MIRAGE Gene-Level Summary ───────────────────────────────────────────────────
 #> Genes analyzed: 282
 #> Variant categories: 5
-#> Delta (prop. risk genes): 0.9254 (p = 0.935)
+#> Delta (prop. risk genes): 0.9894 (p = 0.932)
 #> 
 #> ── Eta estimates (prop. risk variants per category) ──
 #> 
 #>      eta.est eta.pvalue
-#> 1 0.00000000  0.9999999
-#> 2 0.10309231  0.4206781
-#> 3 0.00000000  0.9999999
-#> 4 0.00000000  0.9999999
-#> 5 0.07871355  0.2782095
+#> 1 0.00000000  0.9999998
+#> 2 0.09617393  0.4198750
+#> 3 0.00000000  0.9999998
+#> 4 0.00000000  0.9999998
+#> 5 0.07594910  0.2715666
 #> ── Top 10 genes by posterior probability ──
 #>     Gene       BF post.prob
-#>    MACF1 2.135502 0.9636131
-#>     UBR4 1.289898 0.9411628
-#>     MIB1 1.251474 0.9394656
-#>     SPEN 1.168992 0.9354701
-#>   MYCBP2 1.146437 0.9342839
-#>     BAI2 1.127566 0.9332575
-#>  RPS6KA1 1.123288 0.9330204
-#>    DIP2C 1.117268 0.9326838
-#>     DHX8 1.117268 0.9326838
-#>    LTBP3 1.095385 0.9314312
+#>    MACF1 2.097148 0.9949148
+#>     UBR4 1.278714 0.9916871
+#>     MIB1 1.234471 0.9913918
+#>     SPEN 1.163957 0.9908750
+#>   MYCBP2 1.136189 0.9906541
+#>     BAI2 1.122968 0.9905451
+#>  RPS6KA1 1.119002 0.9905119
+#>    DIP2C 1.109399 0.9904306
+#>     DHX8 1.109399 0.9904306
+#>     CHD5 1.092099 0.9902804
 ```
 
 [`tidy()`](https://generics.r-lib.org/reference/tidy.html) returns the
@@ -138,12 +139,12 @@ gene-level results as a data frame:
 
 head(tidy(res))
 #>     gene        bf post.prob
-#> 1    LPA 0.9164302 0.9191244
-#> 2   MTOR 1.0405788 0.9280794
-#> 3 PTCHD2 0.8327233 0.9117123
-#> 4   UBR4 1.2898984 0.9411628
-#> 5  CSMD2 0.8010658 0.9085424
-#> 6   NCDN 1.0006240 0.9254218
+#> 1    LPA 0.9230083 0.9885203
+#> 2   MTOR 1.0389620 0.9897884
+#> 3 PTCHD2 0.8397172 0.9873960
+#> 4   UBR4 1.2787141 0.9916871
+#> 5  CSMD2 0.8074922 0.9868996
+#> 6   NCDN 0.9978913 0.9893726
 ```
 
 ## Variant-set analysis
@@ -199,28 +200,28 @@ res_fixed <- mirage(toy, n1 = 4315, n2 = 4315,
                     fixed_eta = c(0.60, 0.31, 0.16, 0.40, 0.20))
 #> ℹ Computing variant-level Bayes factors
 #> ℹ Running EM algorithm over 282 genes
-#> ✔ EM converged in 2 iterations
+#> ✔ EM converged in 66 iterations
 #> ℹ Computing LRT statistics and p-values
 head(res_fixed$BF.PP.gene)
 #>     Gene          BF    post.prob
-#> 1    LPA 0.009867872 0.0009560602
-#> 2   MTOR 0.984854125 0.0871831704
-#> 3 PTCHD2 0.585846233 0.0537603275
-#> 4   UBR4 1.335285048 0.1146481371
-#> 5  CSMD2 0.077842145 0.0074924820
-#> 6   NCDN 1.023760656 0.0903162663
+#> 1    LPA 0.009867872 9.003802e-07
+#> 2   MTOR 0.984854125 8.985364e-05
+#> 3 PTCHD2 0.585846233 5.345191e-05
+#> 4   UBR4 1.335285048 1.218215e-04
+#> 5  CSMD2 0.077842145 7.102553e-06
+#> 6   NCDN 1.023760656 9.340297e-05
 ```
 
 ## Key parameters
 
-| Parameter    | Default | Description                       |
-|--------------|---------|-----------------------------------|
-| `gamma`      | 3       | Gamma prior shape for effect size |
-| `sigma`      | 2       | Gamma prior scale for effect size |
-| `eta.init`   | 0.1     | Initial risk variant proportion   |
-| `delta.init` | 0.1     | Initial risk gene proportion      |
-| `max.iter`   | 10000   | Maximum EM iterations             |
-| `tol`        | 1e-5    | Convergence tolerance             |
+| Parameter    | Default | Description                               |
+|--------------|---------|-------------------------------------------|
+| `gamma`      | 3       | Prior mean of the relative-risk parameter |
+| `sigma`      | 2       | Prior rate. Gamma shape is gamma \* sigma |
+| `eta.init`   | 0.1     | Initial risk variant proportion           |
+| `delta.init` | 0.1     | Initial risk gene proportion              |
+| `max.iter`   | 10000   | Maximum EM iterations                     |
+| `tol`        | 1e-5    | Convergence tolerance                     |
 
 ## Session info
 
@@ -253,8 +254,8 @@ sessionInfo()
 #> loaded via a namespace (and not attached):
 #>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
 #>  [5] xfun_0.62         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  
-#>  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      
-#> [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2
+#>  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.5.0       
+#> [13] pkgdown_2.2.1     textshaping_1.1.0 jquerylib_0.1.4   systemfonts_1.3.4
 #> [17] compiler_4.6.2    tools_4.6.2       ragg_1.5.2        bslib_0.12.0     
 #> [21] evaluate_1.0.5    Rcpp_1.1.2        yaml_2.3.12       otel_0.3.0       
 #> [25] jsonlite_2.0.0    rlang_1.3.0       fs_2.1.0

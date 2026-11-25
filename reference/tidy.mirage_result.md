@@ -21,4 +21,4 @@ tidy(x, ...)
 
 ## Value
 
-A data frame with columns: gene, bf, post.prob, p.value.
+A data frame with columns: gene, bf, post.prob.

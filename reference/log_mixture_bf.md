@@ -1,6 +1,6 @@
-# Stable Log of (1 - eta) + eta \* exp(log_bf) — Vectorized
+# Stable log of (1 - eta) + eta \* exp(log_bf)
 
-Stable Log of (1 - eta) + eta \* exp(log_bf) — Vectorized
+Stable log of (1 - eta) + eta \* exp(log_bf)
 
 ## Usage
 

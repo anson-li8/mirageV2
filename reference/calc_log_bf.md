@@ -22,11 +22,11 @@ calc_log_bf(var_case, var_contr, gamma, sigma, N1, N0)
 
 - gamma:
 
-  Numeric vector of shape hyperparameters.
+  Prior mean of the relative risk, one value per variant or a scalar.
 
 - sigma:
 
-  Numeric vector of scale hyperparameters.
+  Prior rate of the relative risk, one value per variant or a scalar.
 
 - N1:
 

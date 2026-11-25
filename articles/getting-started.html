@@ -51,7 +51,7 @@
                         <h4 data-toc-skip class="author">Anson Li</h4>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/anson-li8/mirageV2/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
@@ -116,7 +116,7 @@ alias</td>
 <h2 id="gene-level-analysis">Gene-level analysis<a class="anchor" aria-label="anchor" href="#gene-level-analysis"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mirageV2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/anson-li8/mirageV2" class="external-link">mirageV2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://generics.r-lib.org" class="external-link">generics</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'generics'</span></span>
@@ -142,7 +142,7 @@ alias</td>
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mirage.html">mirage</a></span><span class="op">(</span><span class="va">toy</span>, n1 <span class="op">=</span> <span class="fl">4315</span>, n2 <span class="op">=</span> <span class="fl">4315</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing variant-level Bayes factors</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm over 282 genes</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 2947 iterations</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 5303 iterations</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing LRT statistics and p-values</span></span></code></pre></div>
 <p><code><a href="../reference/mirage.html">mirage()</a></code> returns a <code>mirage_result</code>
 object:</p>
@@ -152,22 +152,22 @@ object:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">MIRAGE Gene-Level Analysis Result</span> <span style="color: #00BBBB;">───────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; Number of genes analyzed: 282</span></span>
 <span><span class="co">#&gt; Number of variant categories: 5</span></span>
-<span><span class="co">#&gt; Estimated proportion of risk genes (delta): 0.9254</span></span>
+<span><span class="co">#&gt; Estimated proportion of risk genes (delta): 0.9894</span></span>
 <span><span class="co">#&gt;  category    eta.est eta.pvalue</span></span>
-<span><span class="co">#&gt;         1 0.00000000  0.9999999</span></span>
-<span><span class="co">#&gt;         2 0.10309231  0.4206781</span></span>
-<span><span class="co">#&gt;         3 0.00000000  0.9999999</span></span>
-<span><span class="co">#&gt;         4 0.00000000  0.9999999</span></span>
-<span><span class="co">#&gt;         5 0.07871355  0.2782095</span></span>
+<span><span class="co">#&gt;         1 0.00000000  0.9999998</span></span>
+<span><span class="co">#&gt;         2 0.09617393  0.4198750</span></span>
+<span><span class="co">#&gt;         3 0.00000000  0.9999998</span></span>
+<span><span class="co">#&gt;         4 0.00000000  0.9999998</span></span>
+<span><span class="co">#&gt;         5 0.07594910  0.2715666</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Top 5 Genes by Posterior Probability</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;    Gene       BF post.prob</span></span>
-<span><span class="co">#&gt;   MACF1 2.135502 0.9636131</span></span>
-<span><span class="co">#&gt;    UBR4 1.289898 0.9411628</span></span>
-<span><span class="co">#&gt;    MIB1 1.251474 0.9394656</span></span>
-<span><span class="co">#&gt;    SPEN 1.168992 0.9354701</span></span>
-<span><span class="co">#&gt;  MYCBP2 1.146437 0.9342839</span></span></code></pre></div>
+<span><span class="co">#&gt;   MACF1 2.097148 0.9949148</span></span>
+<span><span class="co">#&gt;    UBR4 1.278714 0.9916871</span></span>
+<span><span class="co">#&gt;    MIB1 1.234471 0.9913918</span></span>
+<span><span class="co">#&gt;    SPEN 1.163957 0.9908750</span></span>
+<span><span class="co">#&gt;  MYCBP2 1.136189 0.9906541</span></span></code></pre></div>
 <p>The main elements are:</p>
 <ul>
 <li>
@@ -188,39 +188,39 @@ gene.</li>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">MIRAGE Gene-Level Summary</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; Genes analyzed: 282</span></span>
 <span><span class="co">#&gt; Variant categories: 5</span></span>
-<span><span class="co">#&gt; Delta (prop. risk genes): 0.9254 (p = 0.935)</span></span>
+<span><span class="co">#&gt; Delta (prop. risk genes): 0.9894 (p = 0.932)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Eta estimates (prop. risk variants per category)</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;      eta.est eta.pvalue</span></span>
-<span><span class="co">#&gt; 1 0.00000000  0.9999999</span></span>
-<span><span class="co">#&gt; 2 0.10309231  0.4206781</span></span>
-<span><span class="co">#&gt; 3 0.00000000  0.9999999</span></span>
-<span><span class="co">#&gt; 4 0.00000000  0.9999999</span></span>
-<span><span class="co">#&gt; 5 0.07871355  0.2782095</span></span>
+<span><span class="co">#&gt; 1 0.00000000  0.9999998</span></span>
+<span><span class="co">#&gt; 2 0.09617393  0.4198750</span></span>
+<span><span class="co">#&gt; 3 0.00000000  0.9999998</span></span>
+<span><span class="co">#&gt; 4 0.00000000  0.9999998</span></span>
+<span><span class="co">#&gt; 5 0.07594910  0.2715666</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Top 10 genes by posterior probability</span> ──</span></span>
 <span><span class="co">#&gt;     Gene       BF post.prob</span></span>
-<span><span class="co">#&gt;    MACF1 2.135502 0.9636131</span></span>
-<span><span class="co">#&gt;     UBR4 1.289898 0.9411628</span></span>
-<span><span class="co">#&gt;     MIB1 1.251474 0.9394656</span></span>
-<span><span class="co">#&gt;     SPEN 1.168992 0.9354701</span></span>
-<span><span class="co">#&gt;   MYCBP2 1.146437 0.9342839</span></span>
-<span><span class="co">#&gt;     BAI2 1.127566 0.9332575</span></span>
-<span><span class="co">#&gt;  RPS6KA1 1.123288 0.9330204</span></span>
-<span><span class="co">#&gt;    DIP2C 1.117268 0.9326838</span></span>
-<span><span class="co">#&gt;     DHX8 1.117268 0.9326838</span></span>
-<span><span class="co">#&gt;    LTBP3 1.095385 0.9314312</span></span></code></pre></div>
+<span><span class="co">#&gt;    MACF1 2.097148 0.9949148</span></span>
+<span><span class="co">#&gt;     UBR4 1.278714 0.9916871</span></span>
+<span><span class="co">#&gt;     MIB1 1.234471 0.9913918</span></span>
+<span><span class="co">#&gt;     SPEN 1.163957 0.9908750</span></span>
+<span><span class="co">#&gt;   MYCBP2 1.136189 0.9906541</span></span>
+<span><span class="co">#&gt;     BAI2 1.122968 0.9905451</span></span>
+<span><span class="co">#&gt;  RPS6KA1 1.119002 0.9905119</span></span>
+<span><span class="co">#&gt;    DIP2C 1.109399 0.9904306</span></span>
+<span><span class="co">#&gt;     DHX8 1.109399 0.9904306</span></span>
+<span><span class="co">#&gt;     CHD5 1.092099 0.9902804</span></span></code></pre></div>
 <p><code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> returns the gene-level results as a data
 frame:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     gene        bf post.prob</span></span>
-<span><span class="co">#&gt; 1    LPA 0.9164302 0.9191244</span></span>
-<span><span class="co">#&gt; 2   MTOR 1.0405788 0.9280794</span></span>
-<span><span class="co">#&gt; 3 PTCHD2 0.8327233 0.9117123</span></span>
-<span><span class="co">#&gt; 4   UBR4 1.2898984 0.9411628</span></span>
-<span><span class="co">#&gt; 5  CSMD2 0.8010658 0.9085424</span></span>
-<span><span class="co">#&gt; 6   NCDN 1.0006240 0.9254218</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    LPA 0.9230083 0.9885203</span></span>
+<span><span class="co">#&gt; 2   MTOR 1.0389620 0.9897884</span></span>
+<span><span class="co">#&gt; 3 PTCHD2 0.8397172 0.9873960</span></span>
+<span><span class="co">#&gt; 4   UBR4 1.2787141 0.9916871</span></span>
+<span><span class="co">#&gt; 5  CSMD2 0.8074922 0.9868996</span></span>
+<span><span class="co">#&gt; 6   NCDN 0.9978913 0.9893726</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="variant-set-analysis">Variant-set analysis<a class="anchor" aria-label="anchor" href="#variant-set-analysis"></a>
@@ -270,16 +270,16 @@ set <code>estimate.eta = FALSE</code> and pass them with
 <span>                    fixed_eta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.60</span>, <span class="fl">0.31</span>, <span class="fl">0.16</span>, <span class="fl">0.40</span>, <span class="fl">0.20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing variant-level Bayes factors</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running EM algorithm over 282 genes</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 2 iterations</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> EM converged in 66 iterations</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Computing LRT statistics and p-values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_fixed</span><span class="op">$</span><span class="va">BF.PP.gene</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     Gene          BF    post.prob</span></span>
-<span><span class="co">#&gt; 1    LPA 0.009867872 0.0009560602</span></span>
-<span><span class="co">#&gt; 2   MTOR 0.984854125 0.0871831704</span></span>
-<span><span class="co">#&gt; 3 PTCHD2 0.585846233 0.0537603275</span></span>
-<span><span class="co">#&gt; 4   UBR4 1.335285048 0.1146481371</span></span>
-<span><span class="co">#&gt; 5  CSMD2 0.077842145 0.0074924820</span></span>
-<span><span class="co">#&gt; 6   NCDN 1.023760656 0.0903162663</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    LPA 0.009867872 9.003802e-07</span></span>
+<span><span class="co">#&gt; 2   MTOR 0.984854125 8.985364e-05</span></span>
+<span><span class="co">#&gt; 3 PTCHD2 0.585846233 5.345191e-05</span></span>
+<span><span class="co">#&gt; 4   UBR4 1.335285048 1.218215e-04</span></span>
+<span><span class="co">#&gt; 5  CSMD2 0.077842145 7.102553e-06</span></span>
+<span><span class="co">#&gt; 6   NCDN 1.023760656 9.340297e-05</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="key-parameters">Key parameters<a class="anchor" aria-label="anchor" href="#key-parameters"></a>
@@ -294,12 +294,12 @@ set <code>estimate.eta = FALSE</code> and pass them with
 <tr class="odd">
 <td><code>gamma</code></td>
 <td>3</td>
-<td>Gamma prior shape for effect size</td>
+<td>Prior mean of the relative-risk parameter</td>
 </tr>
 <tr class="even">
 <td><code>sigma</code></td>
 <td>2</td>
-<td>Gamma prior scale for effect size</td>
+<td>Prior rate. Gamma shape is gamma * sigma</td>
 </tr>
 <tr class="odd">
 <td><code>eta.init</code></td>
@@ -355,8 +355,8 @@ set <code>estimate.eta = FALSE</code> and pass them with
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    </span></span>
 <span><span class="co">#&gt;  [5] xfun_0.62         cachem_1.1.0      knitr_1.52        htmltools_0.5.9  </span></span>
-<span><span class="co">#&gt;  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      </span></span>
-<span><span class="co">#&gt; [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2</span></span>
+<span><span class="co">#&gt;  [9] rmarkdown_2.32    lifecycle_1.0.5   cli_3.6.6         sass_0.5.0       </span></span>
+<span><span class="co">#&gt; [13] pkgdown_2.2.1     textshaping_1.1.0 jquerylib_0.1.4   systemfonts_1.3.4</span></span>
 <span><span class="co">#&gt; [17] compiler_4.6.2    tools_4.6.2       ragg_1.5.2        bslib_0.12.0     </span></span>
 <span><span class="co">#&gt; [21] evaluate_1.0.5    Rcpp_1.1.2        yaml_2.3.12       otel_0.3.0       </span></span>
 <span><span class="co">#&gt; [25] jsonlite_2.0.0    rlang_1.3.0       fs_2.1.0</span></span></code></pre></div>

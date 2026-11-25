@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Mixture Model Based Rare Variant Analysis on Genes (v2) • mirageV2</title>
+<title>Mixture Model Based Rare Variant Analysis on Genes • mirageV2</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Mixture Model Based Rare Variant Analysis on Genes (v2)">
-<meta name="description" content="Implements a high-performance successor to the mirage package for rare variant (RV) association testing using a Bayesian mixture model. Implements a C++ expectation-maximization (EM) engine in log-space for numerical stability, vectorized Bayes factor computation via composite Simpson's rule, and strict input validation with S3 output classes.">
-<meta property="og:description" content="Implements a high-performance successor to the mirage package for rare variant (RV) association testing using a Bayesian mixture model. Implements a C++ expectation-maximization (EM) engine in log-space for numerical stability, vectorized Bayes factor computation via composite Simpson's rule, and strict input validation with S3 output classes.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Mixture Model Based Rare Variant Analysis on Genes">
+<meta name="description" content="Gene-level and variant-set rare-variant association tests using the MIRAGE mixture model (Han et al. 25, &lt;https://pubmed.ncbi.nlm.nih.gov/41421362&gt;). Bayes factors are integrated in C++ and the EM fit is done in log-space. A high-performance rewrite of the GitHub package mirage, with input checks and S3 methods for printing, summarizing, and tidying results.">
+<meta property="og:description" content="Gene-level and variant-set rare-variant association tests using the MIRAGE mixture model (Han et al. 25, &lt;https://pubmed.ncbi.nlm.nih.gov/41421362&gt;). Bayes factors are integrated in C++ and the EM fit is done in log-space. A high-performance rewrite of the GitHub package mirage, with input checks and S3 methods for printing, summarizing, and tidying results.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -108,7 +108,7 @@
 </tr>
 </tbody>
 </table>
-<p>Runtime numbers come from a single run of both packages on the mirage_toy dataset (1000 variants across 282 genes) on Windows 11 with R 4.6.0. Timings depend on the machine, and the original mirage package has to be installed for a side-by-side comparison. See the <a href="https://anson-li8.github.io/mirageV2/articles/benchmark.html" class="external-link">benchmark vignette</a> for detailed timing and equivalence results.</p>
+<p>Runtime numbers come from a single run of both packages on the mirage_toy dataset (1000 variants across 282 genes) on Windows 11 with R 4.6.0. Timings depend on the machine, and the original mirage package has to be installed for a side-by-side comparison. See the <a href="https://anson-li8.github.io/mirageV2/articles/benchmark.html">benchmark vignette</a> for detailed timing and equivalence results.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -121,7 +121,7 @@
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mirageV2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/anson-li8/mirageV2" class="external-link">mirageV2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load toy data</span></span>
 <span><span class="va">toy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mirage_toy.csv"</span>, package <span class="op">=</span> <span class="st">"mirageV2"</span><span class="op">)</span>,</span>
@@ -198,7 +198,7 @@
 <li>Parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>δ</mi><mo>,</mo><msub><mi>η</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>η</mi><mi>K</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\delta, \eta_1, \ldots, \eta_K)</annotation></semantics></math> are estimated via EM (Expectation-Maximization) in log-space.</li>
 <li>Gene-level posterior probabilities and likelihood ratio test p-values are reported.</li>
 </ul>
-<p>See the <a href="https://xinhe-lab.github.io/mirage/" class="external-link">original <code>mirage</code> documentation</a> for full method details, and the <a href="https://anson-li8.github.io/mirageV2/articles/getting-started.html" class="external-link">Getting Started</a> article for a usage walkthrough.</p>
+<p>See the <a href="https://xinhe-lab.github.io/mirage/" class="external-link">original <code>mirage</code> documentation</a> for full method details, and the <a href="https://anson-li8.github.io/mirageV2/articles/getting-started.html">Getting Started</a> article for a usage walkthrough.</p>
 </div>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
@@ -232,7 +232,15 @@
 <span><span class="co">#&gt; [13] rlang_1.3.0       evaluate_1.0.5</span></span></code></pre></div>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/anson-li8/mirageV2/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/anson-li8/mirageV2/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>

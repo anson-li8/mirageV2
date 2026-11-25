@@ -38,11 +38,12 @@ mirage_vs(
 
 - gamma:
 
-  Hyper prior shape parameter(s). Scalar or length-K vector.
+  Prior mean of the relative-risk parameter. Scalar or length-K vector.
 
 - sigma:
 
-  Hyper prior scale parameter(s). Scalar or length-K vector.
+  Prior rate of the relative-risk parameter. Scalar or length-K vector.
+  The Gamma prior has shape gamma \* sigma and scale 1 / sigma.
 
 - eta.init:
 
@@ -72,3 +73,25 @@ mirage_vs(
 ## Value
 
 An object of class `mirage_vs_result`.
+
+## Examples
+
+``` r
+toy <- data.frame(
+  ID = c("v1", "v2", "v3", "v4"),
+  No.case = c(3L, 1L, 0L, 2L),
+  No.contr = c(1L, 0L, 2L, 0L),
+  category = c(1L, 2L, 1L, 2L)
+)
+mirage_vs(toy, n1 = 500, n2 = 500, verbose = FALSE)
+#> 
+#> ── MIRAGE Variant-Set Analysis Result ──────────────────────────────────────────
+#> Number of variants analyzed: 4
+#> Number of variant categories: 2
+#> 
+#> ── Category-specific risk proportions (eta) ──
+#> 
+#>  category      eta.est eta.pvalue
+#>         1 0.0001999959  1.0000000
+#>         2 1.0000000000  0.1323021
+```
