@@ -6,6 +6,8 @@ MIRAGE mixture model (Han et al. (2025),
 integrated in C++ and the EM fit is done in log-space. A
 high-performance rewrite of the GitHub package 'mirage', with input
 checks and S3 methods for printing, summarizing, and tidying results.
+Bundled toy datasets are derived from the BSD-3-Clause licensed 'mirage'
+package; see inst/COPYRIGHTS for the original license text.
 
 ## See also
 
