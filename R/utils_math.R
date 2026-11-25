@@ -40,7 +40,7 @@ log_sum_exp_vec <- function(v) {
   m + log(sum(exp(v - m)))
 }
 
-#' Stable Log of (1 - eta) + eta * exp(log_bf) — Vectorized
+#' Stable log of (1 - eta) + eta * exp(log_bf)
 #'
 #' @param log_bf Numeric vector of log Bayes factors.
 #' @param eta Numeric scalar or vector in \eqn{}\eqn{[0, 1]}.

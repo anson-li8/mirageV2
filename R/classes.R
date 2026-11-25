@@ -46,6 +46,11 @@ new_mirage_vs_result <- function(eta_est, full_info, post_prob,
   )
 }
 
+#' Print a mirage_result
+#'
+#' @param x A `mirage_result` object.
+#' @param ... Ignored.
+#' @return `x`, invisibly.
 #' @export
 print.mirage_result <- function(x, ...) {
   cli::cli_h1("MIRAGE Gene-Level Analysis Result")
@@ -62,6 +67,11 @@ print.mirage_result <- function(x, ...) {
   invisible(x)
 }
 
+#' Print a mirage_vs_result
+#'
+#' @param x A `mirage_vs_result` object.
+#' @param ... Ignored.
+#' @return `x`, invisibly.
 #' @export
 print.mirage_vs_result <- function(x, ...) {
   cli::cli_h1("MIRAGE Variant-Set Analysis Result")

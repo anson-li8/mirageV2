@@ -6,8 +6,9 @@
 #'   A 4-column input (without ID) is accepted with a warning.
 #' @param n1 Sample size in cases.
 #' @param n2 Sample size in controls.
-#' @param gamma Hyper prior shape parameter(s). Scalar or length-K vector.
-#' @param sigma Hyper prior scale parameter(s). Scalar or length-K vector.
+#' @param gamma Prior mean of the relative-risk parameter. Scalar or length-K vector.
+#' @param sigma Prior rate of the relative-risk parameter. Scalar or length-K vector.
+#'   The Gamma prior has shape gamma * sigma and scale 1 / sigma.
 #' @param eta.init Initial value for proportion of risk variants.
 #' @param delta.init Initial value for proportion of risk genes.
 #' @param estimate.delta Logical. Whether to estimate delta.
@@ -20,7 +21,14 @@
 #' @return An object of class \code{mirage_result}.
 #' @export
 #' @examples
-#' # See vignette for full examples
+#' toy <- data.frame(
+#'   ID = c("v1", "v2", "v3", "v4"),
+#'   Gene = c("A", "A", "B", "B"),
+#'   No.case = c(3L, 1L, 0L, 2L),
+#'   No.contr = c(1L, 0L, 2L, 0L),
+#'   category = c(1L, 2L, 1L, 2L)
+#' )
+#' mirage(toy, n1 = 500, n2 = 500, verbose = FALSE)
 mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
                    eta.init = 0.1, delta.init = 0.1,
                    estimate.delta = TRUE, estimate.eta = TRUE,
@@ -73,20 +81,18 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
     cli::cli_alert_warning("EM did not converge after {em$n.iter} iterations")
   }
 
-  # Gene-level BFs and posterior probabilities
+  # Gene-level BFs and posterior probabilities.
   delta <- em$delta.est
   eta <- em$eta.est
-  gene_bf <- exp(em$gene.log.bf)
-  post_prob_gene <- (delta * gene_bf) / (delta * gene_bf + 1 - delta)
+  gene_bf <- exp(pmin(em$gene.log.bf, log(.Machine$double.xmax)))
+  post_prob_gene <- em$EUi
 
   # LRT p-values
   if (verbose) cli::cli_alert_info("Computing LRT statistics and p-values")
 
-  # Per-gene LRT (df = 2: delta + one pooled eta)
   log_lkhd <- vapply(em$gene.log.bf, function(lb) {
     log_sum_exp(log(1 - delta), log(delta) + lb)
   }, numeric(1))
-  gene_pvalue <- pchisq(2 * log_lkhd, df = 2, lower.tail = FALSE)
 
   # Overall delta p-value (df = 1 + K)
   total_pvalue <- pchisq(2 * sum(log_lkhd), df = 1 + n_categories,
@@ -116,7 +122,7 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
       No.case = dat$No.case[idx],
       No.contr = dat$No.contr[idx],
       category = original_categories[dat$category[idx]],
-      var.BF = exp(log_var_bf[idx]),
+      var.BF = exp(pmin(log_var_bf[idx], log(.Machine$double.xmax))),
       log_var.BF = log_var_bf[idx],
       stringsAsFactors = FALSE
     )
@@ -145,6 +151,14 @@ mirage <- function(data, n1, n2, gamma = 3, sigma = 2,
 #' @param data Data frame with columns: ID, No.case, No.contr, category.
 #'   A 3-column input (without ID) is accepted with a warning.
 #' @return An object of class \code{mirage_vs_result}.
+#' @examples
+#' toy <- data.frame(
+#'   ID = c("v1", "v2", "v3", "v4"),
+#'   No.case = c(3L, 1L, 0L, 2L),
+#'   No.contr = c(1L, 0L, 2L, 0L),
+#'   category = c(1L, 2L, 1L, 2L)
+#' )
+#' mirage_vs(toy, n1 = 500, n2 = 500, verbose = FALSE)
 #' @export
 mirage_vs <- function(data, n1, n2, gamma = 3, sigma = 2,
                       eta.init = 0.1, estimate.eta = TRUE,
@@ -216,14 +230,14 @@ mirage_vs <- function(data, n1, n2, gamma = 3, sigma = 2,
     No.case = dat$No.case,
     No.contr = dat$No.contr,
     category = original_categories[dat$category],
-    var.BF = exp(log_var_bf),
+    var.BF = exp(pmin(log_var_bf, log(.Machine$double.xmax))),
     log_var.BF = log_var_bf,
     stringsAsFactors = FALSE
   )
 
   post_prob_df <- data.frame(
     variant = dat$ID,
-    BF = exp(log_var_bf),
+    BF = exp(pmin(log_var_bf, log(.Machine$double.xmax))),
     post.prob = em$post.prob
   )
 

@@ -12,7 +12,7 @@
 \item{...}{Ignored.}
 }
 \value{
-A data frame with columns: gene, bf, post.prob, p.value.
+A data frame with columns: gene, bf, post.prob.
 }
 \description{
 Returns gene-level results as a tidy data frame.

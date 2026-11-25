@@ -41,7 +41,7 @@ summary.mirage_vs_result <- function(object, n_top = 10L, ...) {
 #'
 #' @param x A \code{mirage_result} object.
 #' @param ... Ignored.
-#' @return A data frame with columns: gene, bf, post.prob, p.value.
+#' @return A data frame with columns: gene, bf, post.prob.
 #' @importFrom generics tidy
 #' @exportS3Method generics::tidy
 tidy.mirage_result <- function(x, ...) {

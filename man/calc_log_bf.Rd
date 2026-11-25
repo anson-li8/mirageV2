@@ -11,9 +11,9 @@ calc_log_bf(var_case, var_contr, gamma, sigma, N1, N0)
 
 \item{var_contr}{Integer vector of variant counts in controls.}
 
-\item{gamma}{Numeric vector of shape hyperparameters.}
+\item{gamma}{Prior mean of the relative risk, one value per variant or a scalar.}
 
-\item{sigma}{Numeric vector of scale hyperparameters.}
+\item{sigma}{Prior rate of the relative risk, one value per variant or a scalar.}
 
 \item{N1}{Total sample size in cases.}
 

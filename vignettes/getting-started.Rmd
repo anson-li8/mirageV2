@@ -112,8 +112,8 @@ head(res_fixed$BF.PP.gene)
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `gamma` | 3 | Gamma prior shape for effect size |
-| `sigma` | 2 | Gamma prior scale for effect size |
+| `gamma` | 3 | Prior mean of the relative-risk parameter |
+| `sigma` | 2 | Prior rate. Gamma shape is gamma * sigma |
 | `eta.init` | 0.1 | Initial risk variant proportion |
 | `delta.init` | 0.1 | Initial risk gene proportion |
 | `max.iter` | 10000 | Maximum EM iterations |

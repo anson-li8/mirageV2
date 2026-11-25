@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_math.R
 \name{log_mixture_bf}
 \alias{log_mixture_bf}
-\title{Stable Log of (1 - eta) + eta * exp(log_bf) — Vectorized}
+\title{Stable log of (1 - eta) + eta * exp(log_bf)}
 \usage{
 log_mixture_bf(log_bf, eta)
 }
@@ -15,6 +15,6 @@ log_mixture_bf(log_bf, eta)
 Numeric vector of log((1-eta) + eta * exp(log_bf)).
 }
 \description{
-Stable Log of (1 - eta) + eta * exp(log_bf) — Vectorized
+Stable log of (1 - eta) + eta * exp(log_bf)
 }
 \keyword{internal}

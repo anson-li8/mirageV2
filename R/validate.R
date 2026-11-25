@@ -84,7 +84,7 @@ validate_mirage_data <- function(data, type = c("gene", "vs")) {
 #' Validate MIRAGE EM Algorithm Parameters
 #' @keywords internal
 validate_mirage_params <- function(n1, n2, gamma, sigma, eta.init, delta.init,
-                                   estimate.delta, estimate.eta, fixed.eta,
+                                   estimate.delta, estimate.eta, fixed_eta,
                                    max.iter, tol, num_categories, type = "gene") {
   if (!is.numeric(n1) || length(n1) != 1 || n1 <= 0) {
     cli::cli_abort("{.arg n1} must be a single positive number.")
@@ -124,14 +124,14 @@ validate_mirage_params <- function(n1, n2, gamma, sigma, eta.init, delta.init,
   }
 
   if (!estimate.eta) {
-    if (is.null(fixed.eta)) {
-      cli::cli_abort("{.arg fixed.eta} must be provided when {.arg estimate.eta} is FALSE.")
+    if (is.null(fixed_eta)) {
+      cli::cli_abort("{.arg fixed_eta} must be provided when {.arg estimate.eta} is FALSE.")
     }
-    if (!is.numeric(fixed.eta) || length(fixed.eta) != num_categories) {
-      cli::cli_abort("{.arg fixed.eta} must be a numeric vector of length {num_categories}.")
+    if (!is.numeric(fixed_eta) || length(fixed_eta) != num_categories) {
+      cli::cli_abort("{.arg fixed_eta} must be a numeric vector of length {num_categories}.")
     }
-    if (any(fixed.eta < 0 | fixed.eta > 1)) {
-      cli::cli_abort("All values in {.arg fixed.eta} must be between 0 and 1.")
+    if (any(fixed_eta < 0 | fixed_eta > 1)) {
+      cli::cli_abort("All values in {.arg fixed_eta} must be between 0 and 1.")
     }
   }
 

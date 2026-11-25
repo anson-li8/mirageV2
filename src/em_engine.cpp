@@ -142,6 +142,7 @@ List em_mirage_cpp(IntegerVector category,      // 0-indexed category per varian
     // Convergence check
     double diff = 0.0;
     for (int g = 0; g < n_categories; ++g) diff += std::abs(eta[g] - eta_prev[g]);
+    if (estimate_delta) diff += std::abs(delta - delta_prev);
 
     final_iter = iter + 1;
     if (diff < tol) {

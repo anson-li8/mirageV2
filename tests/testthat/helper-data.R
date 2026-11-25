@@ -1,11 +1,11 @@
 # Helper function: load bundled test data
 load_toy_gene <- function() {
-  read.csv(testthat::test_path("..", "..", "inst", "extdata", "mirage_toy.csv"),
+  read.csv(system.file("extdata", "mirage_toy.csv", package = "mirageV2"),
            stringsAsFactors = FALSE)
 }
 
 load_toy_vs <- function() {
-  read.csv(testthat::test_path("..", "..", "inst", "extdata", "mirage_vs_toy.csv"),
+  read.csv(system.file("extdata", "mirage_vs_toy.csv", package = "mirageV2"),
            stringsAsFactors = FALSE)
 }
 

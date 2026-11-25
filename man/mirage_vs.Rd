@@ -26,9 +26,10 @@ A 3-column input (without ID) is accepted with a warning.}
 
 \item{n2}{Sample size in controls.}
 
-\item{gamma}{Hyper prior shape parameter(s). Scalar or length-K vector.}
+\item{gamma}{Prior mean of the relative-risk parameter. Scalar or length-K vector.}
 
-\item{sigma}{Hyper prior scale parameter(s). Scalar or length-K vector.}
+\item{sigma}{Prior rate of the relative-risk parameter. Scalar or length-K vector.
+The Gamma prior has shape gamma * sigma and scale 1 / sigma.}
 
 \item{eta.init}{Initial value for proportion of risk variants.}
 
@@ -48,4 +49,13 @@ An object of class \code{mirage_vs_result}.
 }
 \description{
 Variant-level rare variant association test using a Bayesian mixture model.
+}
+\examples{
+toy <- data.frame(
+  ID = c("v1", "v2", "v3", "v4"),
+  No.case = c(3L, 1L, 0L, 2L),
+  No.contr = c(1L, 0L, 2L, 0L),
+  category = c(1L, 2L, 1L, 2L)
+)
+mirage_vs(toy, n1 = 500, n2 = 500, verbose = FALSE)
 }

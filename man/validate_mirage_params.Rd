@@ -13,7 +13,7 @@ validate_mirage_params(
   delta.init,
   estimate.delta,
   estimate.eta,
-  fixed.eta,
+  fixed_eta,
   max.iter,
   tol,
   num_categories,

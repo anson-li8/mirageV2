@@ -4,9 +4,18 @@
 \name{mirageV2-package}
 \alias{mirageV2}
 \alias{mirageV2-package}
-\title{mirageV2: Mixture Model Based Rare Variant Analysis on Genes (v2)}
+\title{mirageV2: Mixture Model Based Rare Variant Analysis on Genes}
 \description{
-Implements a high-performance successor to the 'mirage' package for rare variant (RV) association testing using a Bayesian mixture model. Implements a C++ expectation-maximization (EM) engine in log-space for numerical stability, vectorized Bayes factor computation via composite Simpson's rule, and strict input validation with S3 output classes.
+Gene-level and variant-set rare-variant association tests using the MIRAGE mixture model (Han et al. 25, \url{https://pubmed.ncbi.nlm.nih.gov/41421362}). Bayes factors are integrated in C++ and the EM fit is done in log-space. A high-performance rewrite of the GitHub package 'mirage', with input checks and S3 methods for printing, summarizing, and tidying results.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/anson-li8/mirageV2}
+  \item \url{https://anson-li8.github.io/mirageV2}
+  \item Report bugs at \url{https://github.com/anson-li8/mirageV2/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Anson Li \email{liyuanrui618@gmail.com}

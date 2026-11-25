@@ -66,8 +66,6 @@ test_that("mirage() handles single-variant-per-gene input", {
 })
 
 test_that("mirage() works on full mirage_toy dataset", {
-  skip_if_not(file.exists(testthat::test_path("..", "..", "inst", "extdata", "mirage_toy.csv")),
-              message = "mirage_toy.csv not found")
   dat <- load_toy_gene()
   res <- mirage(dat, n1 = 4315, n2 = 4315, verbose = FALSE)
   expect_s3_class(res, "mirage_result")

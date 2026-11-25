@@ -5,8 +5,8 @@
 #'
 #' @param var_case Integer vector of variant counts in cases.
 #' @param var_contr Integer vector of variant counts in controls.
-#' @param gamma Numeric vector of shape hyperparameters.
-#' @param sigma Numeric vector of scale hyperparameters.
+#' @param gamma Prior mean of the relative risk, one value per variant or a scalar.
+#' @param sigma Prior rate of the relative risk, one value per variant or a scalar.
 #' @param N1 Total sample size in cases.
 #' @param N0 Total sample size in controls.
 #' @return Numeric vector of log Bayes Factors.
