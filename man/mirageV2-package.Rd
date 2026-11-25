@@ -6,7 +6,7 @@
 \alias{mirageV2-package}
 \title{mirageV2: Mixture Model Based Rare Variant Analysis on Genes}
 \description{
-Gene-level and variant-set rare-variant association tests using the MIRAGE mixture model (Han et al. 25, \url{https://pubmed.ncbi.nlm.nih.gov/41421362}). Bayes factors are integrated in C++ and the EM fit is done in log-space. A high-performance rewrite of the GitHub package 'mirage', with input checks and S3 methods for printing, summarizing, and tidying results.
+Gene-level and variant-set rare-variant association tests using the MIRAGE mixture model (Han et al. (2025), \url{https://pubmed.ncbi.nlm.nih.gov/41421362}). Bayes factors are integrated in C++ and the EM fit is done in log-space. A high-performance rewrite of the GitHub package 'mirage', with input checks and S3 methods for printing, summarizing, and tidying results.
 }
 \seealso{
 Useful links:
